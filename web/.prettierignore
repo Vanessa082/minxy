@@ -1,0 +1,12 @@
+# ignore artifact
+
+build
+coverage
+.next
+.cache
+package*.json
+public
+node_modules
+next-env.d.ts
+next-config.ts
+yarn.lock

@@ -19,6 +19,9 @@
       }
     ],
     "paths": {
+      "@/lib/*": ["./src/core/lib/*"],
+      "@/components/*": ["./src/core/components/*"],
+      "@/core/*": ["./src/core/*"],
       "@/*": ["./src/*"]
     }
   },
