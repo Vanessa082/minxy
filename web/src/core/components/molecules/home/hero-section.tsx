@@ -1,12 +1,13 @@
 "use client"
 import { MainTag } from "@/components/atoms";
-import AnalyticsTable from "@/components/atoms/analytics-table";
+import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 
 export default function HeroSection() {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
     <h1 className="text-app-blue-500 font-extrabold text-4xl">
-      Shorten Your Looong URL : &#41;
+      Shorten Your Looong URL : 
+      {/* &#41; */}
     </h1>
   
     <p className="text-app-dark-200 text-sm text-center">

@@ -1,4 +1,4 @@
-import { DeleteIcon, EditIcon, EyeIcon, LucideEdit, PenIcon, TrashIcon } from "lucide-react";
+import { EyeIcon,  PenIcon, TrashIcon } from "lucide-react";
 
 export default function HistoryTable() {
   return (
