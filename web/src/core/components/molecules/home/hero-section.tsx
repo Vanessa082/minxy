@@ -1,4 +1,3 @@
-"use client"
 import { MainTag } from "@/components/atoms";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 
