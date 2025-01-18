@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const appName = "Minxx";
+const appName = "Minxy";
 const appDescription = "Simplify and optimize your links with our powerful link shortener. Track performance, manage custom URLs, and share with ease—all in one platform. Perfect for social media, marketing, and analytics."
 
 export const metadata: Metadata = {

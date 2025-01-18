@@ -71,14 +71,28 @@ body {
 
     /* DARK MODE TAILWIND EXTENSIONS */
     --app-blue-500: #2569fd;
+
     --app-dark-500: var(--strict-white-500);
+    --app-dark-400: var(--strict-white-400);
+    --app-dark-300: var(--strict-white-300);
+    --app-dark-200: var(--strict-white-200);
+
     --app-white-500: var(--strict-dark-500);
+    --app-white-400: var(--strict-dark-400);
+
     --app-text-dark-500: var(--strict-text-white-500);
+    --app-text-dark-400: var(--strict-text-white-400);
+    --app-text-dark-300: var(--strict-text-white-300);
+    --app-text-dark-200: var(--strict-text-white-200);
+
     --app-text-white-500: var(--strict-text-dark-500);
+    --app-text-white-400: var(--strict-text-dark-400);
+
+    --app-text-blue-500: #2569fd;
   }
 }
 
-/* @layer base {
+@layer base {
   * {
     @apply border-border;
   }
@@ -86,4 +100,4 @@ body {
   body {
     @apply bg-background text-foreground;
   }
-} */
+}
