@@ -1,4 +1,3 @@
-import { MainTag } from "@/components/atoms";
 import { Header } from "@/components/molecules/home";
 import HeroSection from "@/components/molecules/home/hero-section";
 

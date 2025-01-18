@@ -24,7 +24,7 @@ body {
   --strict-white-300: #eaeaec;
   --strict-white-200: #d8d8db;
 
-  --strict-text-dark-500: #1e1c26;
+  --strict-text-dark-500: #181e29;
   --strict-text-dark-400: #252331;
   --strict-text-dark-300: #343145;
   --strict-text-dark-200: #666983;
@@ -54,7 +54,12 @@ body {
     /* LIGHT MODE TAILWIND EXTENSIONS */
     --app-blue-500: var(--strict-blue-500);
     --app-dark-500: var(--strict-dark-500);
+    --app-dark-400: var(--strict-dark-400);
+    --app-dark-300: var(--strict-dark-300);
+    --app-dark-200: var(--strict-dark-200);
+    --app-dark-100: var(--strict-dark-100);
     --app-white-500: var(--strict-white-500);
+    --app-white-200: var(--strict-white-200);
     --app-text-dark-500: var(--strict-text-dark-500);
     --app-text-white-500: var(--strict-text-white-500);
   }
@@ -79,6 +84,7 @@ body {
 
     --app-white-500: var(--strict-dark-500);
     --app-white-400: var(--strict-dark-400);
+    /* --app-white-200: var(--strict-dark-500) */
 
     --app-text-dark-500: var(--strict-text-white-500);
     --app-text-dark-400: var(--strict-text-white-400);

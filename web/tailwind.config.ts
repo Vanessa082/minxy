@@ -50,53 +50,67 @@ const config: Config = {
 					'5': 'hsl(var(--chart-5))'
 				},
 				app: {
-					'blue-500': 'var(--app-blue-500)',
-
-					'dark-500': 'var(--app-dark-500)',
-					'dark-400': 'var(--app-dark-400)',
-					'dark-300': 'var(--app-dark-300)',
-					'dark-200': 'var(--app-dark-200)',
-
-					'white-500': 'var(--app-white-500)',
-					'white-400': 'var(--app-white-400)',
-					'white-300': 'var(--app-white-300)',
-					'white-200': 'var(--app-white-200)',
-
-					'text-dark-500': 'var(--app-text-dark-500)',
-					'text-dark-400': 'var(--app-text-dark-400)',
-					'text-dark-300': 'var(--app-text-dark-300)',
-					'text-dark-200': 'var(--app-text-dark-200)',
-
-					'text-white-500': 'var(--app-text-white-500)',
-					'text-white-400': 'var(--app-text-white-400)',
-					'text-white-300': 'var(--app-text-white-300)',
-					'text-white-200': 'var(--app-text-white-200)',
-
-					'text-blue-500': 'var(--app-text-blue-500)',
+					blue: {
+						500: 'var(--app-blue-500)',
+					},
+					dark: {
+						500: 'var(--app-dark-500)',
+						400: 'var(--app-dark-400)',
+						300: 'var(--app-dark-300)',
+						200: 'var(--app-dark-200)',
+					},
+					white: {
+						500: 'var(--app-white-500)',
+						400: 'var(--app-white-400)',
+						300: 'var(--app-white-300)',
+						200: 'var(--app-white-200)',
+					},
+					'text-dark': {
+						500: 'var(--app-text-dark-500)',
+						400: 'var(--app-text-dark-400)',
+						300: 'var(--app-text-dark-300)',
+						200: 'var(--app-text-dark-200)',
+					},
+					'text-white': {
+						500: 'var(--app-text-white-500)',
+						400: 'var(--app-text-white-400)',
+						300: 'var(--app-text-white-300)',
+						200: 'var(--app-text-white-200)',
+					},
+					'text-blue': {
+						500: 'var(--app-text-blue-500)',
+					},
 					strict: {
-						'blue-500': 'var(--strict-blue-500)',
-
-						'dark-500': 'var(--strict-dark-500)',
-						'dark-400': 'var(--strict-dark-400)',
-						'dark-300': 'var(--strict-dark-300)',
-						'dark-200': 'var(--strict-dark-200)',
-
-						'white-500': 'var(--strict-white-500)',
-						'white-400': 'var(--strict-white-400)',
-						'white-300': 'var(--strict-white-300)',
-						'white-200': 'var(--strict-white-200)',
-
-						'text-dark-500': 'var(--strict-text-dark-500)',
-						'text-dark-400': 'var(--strict-text-dark-400)',
-						'text-dark-300': 'var(--strict-text-dark-300)',
-						'text-dark-200': 'var(--strict-text-dark-200)',
-
-						'text-white-500': 'var(--strict-text-white-500)',
-						'text-white-400': 'var(--strict-text-white-400)',
-						'text-white-300': 'var(--strict-text-white-300)',
-						'text-white-200': 'var(--strict-text-white-200)',
-
-						'text-blue-500': 'var(--strict-text-blue-500)'
+						blue: {
+							500: 'var(--strict-blue-500)',
+						},
+						dark: {
+							500: 'var(--strict-dark-500)',
+							400: 'var(--strict-dark-400)',
+							300: 'var(--strict-dark-300)',
+							200: 'var(--strict-dark-200)',
+						},
+						white: {
+							500: 'var(--strict-white-500)',
+							400: 'var(--strict-white-400)',
+							300: 'var(--strict-white-300)',
+							200: 'var(--strict-white-200)',
+						},
+						'text-dark': {
+							500: 'var(--strict-text-dark-500)',
+							400: 'var(--strict-text-dark-400)',
+							300: 'var(--strict-text-dark-300)',
+							200: 'var(--strict-text-dark-200)',
+						},
+						'text-white': {
+							500: 'var(--strict-text-white-500)',
+							400: 'var(--strict-text-white-400)',
+							300: 'var(--strict-text-white-300)',
+							200: 'var(--strict-text-white-200)',
+						},
+						'text-blue': {
+							500: 'var(--strict-text-blue-500)'
+						}
 					}
 				}
 			},
