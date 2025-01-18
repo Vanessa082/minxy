@@ -1,4 +1,3 @@
-"use client"
 import { MainTag } from "@/components/atoms";
 import ModeToggle from "@/components/atoms/mode-toggle";
 import { UserCircle } from "lucide-react";
