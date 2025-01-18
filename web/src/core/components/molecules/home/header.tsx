@@ -8,8 +8,8 @@ export default function Header() {
       <h1 className="text-4xl font-bold">Minxy</h1>
       <div className="flex items-center justify-between gap-2">
         <ModeToggle />
-        <UserCircle className="w-12 h-12 cursor-pointer"/>
+        <UserCircle className="w-12 h-12 cursor-pointer" />
       </div>
     </MainTag>
-  )
+  );
 }

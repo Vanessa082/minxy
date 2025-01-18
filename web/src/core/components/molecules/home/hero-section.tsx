@@ -5,11 +5,12 @@ export default function HeroSection() {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
-        Shorten Your Looong URL &#58;  &#41;
+        Shorten Your Looong URL &#58; &#41;
       </h1>
 
       <p className="text-app-dark-200 text-sm text-center">
-        Mini link is an efficient and easy-to-use URL shortening service that boasts your online experience.
+        Mini link is an efficient and easy-to-use URL shortening service that
+        boasts your online experience.
       </p>
 
       {/* Message Box
@@ -24,10 +25,12 @@ export default function HeroSection() {
     </div> */}
 
       <span className="text-app-dark-200">
-        <a href="#" className="text-app-blue-500 font-semibold">Login</a> to get and see analytics for the links you shorten.
+        <a href="#" className="text-app-blue-500 font-semibold">
+          Login
+        </a>{" "}
+        to get and see analytics for the links you shorten.
       </span>
       <AnalyticsTable />
     </MainTag>
-
-  )
+  );
 }

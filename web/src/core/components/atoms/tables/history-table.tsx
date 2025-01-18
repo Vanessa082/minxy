@@ -1,26 +1,44 @@
-import { EyeIcon,  PenIcon, TrashIcon } from "lucide-react";
+import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
 
 export default function HistoryTable() {
   return (
     <div className="overflow-hidden border border-strict-dark-300 rounded-lg shadow-lg">
       <div className="overflow-x-auto">
         <table className="min-w-full bg-strict-dark-400" role="table">
-          <caption className="sr-only">Table displaying click counts, original links, short links, and their status</caption>
+          <caption className="sr-only">
+            Table displaying click counts, original links, short links, and
+            their status
+          </caption>
           <thead className="bg-strict-dark-300 text-strict-white-500">
             <tr>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
                 Clicks
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
                 Original Link
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
                 Short Link
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
                 Status
               </th>
-              <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+              <th
+                scope="col"
+                className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider"
+              >
                 Actions
               </th>
             </tr>
@@ -33,7 +51,9 @@ export default function HistoryTable() {
               <td className="px-5 py-4 ">
                 https://www.google.com/search?q=CollectiveMind&oq=CollectiveMind&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIJ
               </td>
-              <td className="px-5 py-4 ">https://minilink-sklo.onrender.com/r/w_GkqAjLMq</td>
+              <td className="px-5 py-4 ">
+                https://minilink-sklo.onrender.com/r/w_GkqAjLMq
+              </td>
               <td className="px-5 py-4">
                 <span className="inline-block px-3 py-1 text-xs font-semibold bg-app-blue-500 text-app-white-500 rounded-full">
                   Active
@@ -62,7 +82,6 @@ export default function HistoryTable() {
                   <EyeIcon />
                 </button>
               </td>
-
             </tr>
             {/* Row 2 */}
             <tr className="">
@@ -104,6 +123,5 @@ export default function HistoryTable() {
         </table>
       </div>
     </div>
-
-  )
+  );
 }

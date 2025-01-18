@@ -14,12 +14,13 @@ const geistMono = Geist_Mono({
 });
 
 const appName = "Minxy";
-const appDescription = "Simplify and optimize your links with our powerful link shortener. Track performance, manage custom URLs, and share with ease—all in one platform. Perfect for social media, marketing, and analytics."
+const appDescription =
+  "Simplify and optimize your links with our powerful link shortener. Track performance, manage custom URLs, and share with ease—all in one platform. Perfect for social media, marketing, and analytics.";
 
 export const metadata: Metadata = {
   title: {
     template: `%s | ${appName}`,
-    default: appName
+    default: appName,
   },
 
   description: appDescription,
@@ -31,7 +32,7 @@ export const metadata: Metadata = {
     description: appDescription,
     title: {
       template: `%s | ${appName}`,
-      default: appName
+      default: appName,
     },
   },
 
@@ -50,14 +51,23 @@ export const metadata: Metadata = {
     title: `%s | ${appName}`,
   },
 
-  authors: [{
-    url: "https://github.com/vanessa082",
-    name: "Wah Vanessa",
-  }],
+  authors: [
+    {
+      url: "https://github.com/vanessa082",
+      name: "Wah Vanessa",
+    },
+  ],
 
   keywords: [
-    "link shortener", "URL shortener", "track links", "analytics", "custom URLs", "shorten links", "free link shortener", "link management"
-  ]
+    "link shortener",
+    "URL shortener",
+    "track links",
+    "analytics",
+    "custom URLs",
+    "shorten links",
+    "free link shortener",
+    "link management",
+  ],
 };
 
 export default function RootLayout({
@@ -70,7 +80,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>
