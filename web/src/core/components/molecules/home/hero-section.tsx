@@ -19,7 +19,7 @@ export default function HeroSection() {
       of an important API used by this app is expired.<br /><br />
       I also cannot allow you to shorten links without logging in or signing up.<br /><br />
       If you wanna shorten links without authenticating yourself, please contact the admins 
-        <a href="https://github.com/Vanessa082" className="text-pink-500 font-bold"> here </a>
+        <Link href="https://github.com/Vanessa082" className="text-pink-500 font-bold"> here </Link>
         so we could update our API keys.
       </p>
     </div> */}
