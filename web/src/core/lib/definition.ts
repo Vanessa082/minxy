@@ -33,14 +33,20 @@ export const SignupFormSchema = z
     path: ["confirmPassword"],
   });
 
-export type FormState =
-  | {
-      errors?: {
-        username?: string[];
-        email?: string[];
-        password?: string[];
-        confirmPassword?: string[];
-      };
-      message?: string;
-    }
-  | undefined;
+export type FormState = {
+  success: boolean;
+  errors: {
+    general?: string[];
+    username?: string[];
+    email?: string[];
+    password?: string[];
+    confirmPassword?: string[];
+  };
+  user?: {
+    id: string;
+    username: string;
+    email: string;
+  };
+};
+
+

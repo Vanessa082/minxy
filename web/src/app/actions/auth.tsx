@@ -1,9 +1,16 @@
 import UserModel from "@/core/models/user";
 import connectMongo from "@/lib/db";
 import { FormState, SignupFormSchema } from "@/lib/definition";
-import bcrypt from "bcrypt"
+import bcrypt from "bcrypt";
 
-export default async function signup(state: FormState, formData: FormData) {
+export default async function signup(state: FormState | undefined, formData?: FormData) {
+  if (!formData) {
+    return {
+      success: false,
+      errors: { general: ["Invalid form submission"], username: [], email: [], password: [], confirmPassword: [] },
+    };
+  }
+
   await connectMongo();
 
   const validateFields = SignupFormSchema.safeParse({
@@ -14,29 +21,58 @@ export default async function signup(state: FormState, formData: FormData) {
   });
 
   if (!validateFields.success) {
+    const { fieldErrors, formErrors } = validateFields.error.flatten();
     return {
-      errors: validateFields.error.flatten().fieldErrors,
+      success: false,
+      errors: {
+        general: formErrors,
+        username: fieldErrors.username || [],
+        email: fieldErrors.email || [],
+        password: fieldErrors.password || [],
+        confirmPassword: fieldErrors.confirmPassword || [],
+      },
     };
   }
 
   const { username, email, password } = validateFields.data;
+
   try {
     const existingUser = await UserModel.findOne({ email });
     if (existingUser) {
       return {
-        errors: { email: ["Email already exist"] }
-      }
+        success: false,
+        errors: {
+          general: [],
+          username: [],
+          email: ["Email already exists"],
+          password: [],
+          confirmPassword: [],
+        },
+      };
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = await bcrypt.hash(password, 12);
     const user = await UserModel.create({
       username,
       email,
       password: hashedPassword,
-    })
-    return { success: true, user: { id: user._id, username, email } }
+    });
+
+    return {
+      success: true,
+      user: { id: user._id, username, email },
+    };
   } catch (error) {
     console.error("Signup Error:", error);
-    return { errors: { general: ["An error occurred. Please try again."] } };
+    return {
+      success: false,
+      errors: {
+        general: ["An error occurred. Please try again."],
+        username: [],
+        email: [],
+        password: [],
+        confirmPassword: [],
+      },
+    };
   }
 }
