@@ -120,7 +120,8 @@ const config: Config = {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			spacing: {
-				'app-w': 'min(95vw, 1440px)'
+				'app-w': 'min(95vw, 1440px)',
+				'app-min-h': '70vh',
 			},
 			screens: {
 				ssm: '450px'

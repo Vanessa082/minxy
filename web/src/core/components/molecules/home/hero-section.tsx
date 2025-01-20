@@ -1,5 +1,6 @@
 import { MainTag } from "@/components/atoms";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
+import Link from "next/link";
 
 export default function HeroSection() {
   return (
@@ -25,9 +26,9 @@ export default function HeroSection() {
     </div> */}
 
       <span className="text-app-dark-200">
-        <a href="#" className="text-app-blue-500 font-semibold">
+        <Link href="#" className="text-app-blue-500 font-semibold">
           Login
-        </a>{" "}
+        </Link>{" "}
         to get and see analytics for the links you shorten.
       </span>
       <AnalyticsTable />
