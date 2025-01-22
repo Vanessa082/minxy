@@ -124,6 +124,7 @@ const config: Config = {
 				'app-min-h': '70vh',
 			},
 			screens: {
+				'max-lg': { max: '1387px' },
 				ssm: '450px'
 			}
 		}

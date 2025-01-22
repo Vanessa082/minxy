@@ -12,7 +12,7 @@ body {
 
 :root {
   /* DEFAULT STRICT COLORS TAILWIND EXTENSIONS */
-  --strict-blue-500: #2569fd;
+  --strict-blue-500: #6c47ff;
 
   --strict-dark-500: #1e1c26;
   --strict-dark-400: #252331;
@@ -34,7 +34,7 @@ body {
   --strict-text-white-300: #eaeaec;
   --strict-text-white-200: #d8d8db;
 
-  --strict-text-blue-500: #2569fd;
+  --strict-text-blue-500: #7048ff;
 }
 
 @layer base {
@@ -75,7 +75,7 @@ body {
     --ring: 224.3 76.3% 48%;
 
     /* DARK MODE TAILWIND EXTENSIONS */
-    --app-blue-500: #2569fd;
+    --app-blue-500: #7048ff;
 
     --app-dark-500: var(--strict-white-500);
     --app-dark-400: var(--strict-white-400);
@@ -94,7 +94,7 @@ body {
     --app-text-white-500: var(--strict-text-dark-500);
     --app-text-white-400: var(--strict-text-dark-400);
 
-    --app-text-blue-500: #2569fd;
+    --app-text-blue-500: #7048ff;
   }
 }
 
