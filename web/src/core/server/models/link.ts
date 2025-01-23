@@ -23,3 +23,5 @@ const linkSchema = new Schema({
     type: timeStamp
   }
 })
+
+export default linkSchema
