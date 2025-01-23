@@ -1,27 +1,33 @@
-import { Schema } from "mongoose";
-import { timeStamp } from "node:console";
+import { model, models, Schema } from "mongoose";
 
 const linkSchema = new Schema({
   userId: {
-    type: Schema.Types.ObjectId,
-    ref: "User"
+    type: String,
+    require: true
   },
   originalLink: {
     type: String,
+    require: true
   },
   shortLink: {
-    type: String
+    type: String,
+    require: true,
+    unique: true
   },
   clicks: {
-    type: Number
+    type: Number,
+    default: 0
   },
   Status: {
     type: Boolean
   },
 
   createdAt: {
-    type: timeStamp
+    type: Date,
+    default: Date.now
   }
-})
+}, { timestamps: true })
 
-export default linkSchema
+const Link = models.Link || model('Link', linkSchema)
+
+export default Link
