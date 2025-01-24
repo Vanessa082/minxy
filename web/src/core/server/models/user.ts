@@ -1,4 +1,4 @@
-import { IUser } from "@/core/interface/user";
+import { User } from "@/core/interface/user";
 import { model, models, Schema } from "mongoose";
 
 const userSchema = new Schema({
@@ -14,16 +14,8 @@ const userSchema = new Schema({
     type: String,
     require: true
   },
-  password: {
-    type: String,
-    require: true
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
 }, { timestamps: true })
 
-const UserModel = models.User || model<IUser>('User', userSchema)
+const UserModel = models.User || model<User>('User', userSchema)
 
 export default UserModel;

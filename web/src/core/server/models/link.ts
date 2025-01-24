@@ -29,10 +29,6 @@ const linkSchema = new Schema({
   password: {
     type: String,
   },
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
 }, { timestamps: true })
 
 const Link = models.Link || model('Link', linkSchema)
