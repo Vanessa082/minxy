@@ -19,22 +19,25 @@ export default function HeroSection() {
 
       <SignedIn>
         <div className="flex items-center gap-4 px-4 py-3 border-2 border-app-dark-500 rounded-full ">
-          <div className="flex items-center gap-2"><LinkIcon />Enter the link here <hr className="w-1" /></div>
+          <div className="flex items-center gap-2">
+            <LinkIcon />
+            Enter the link here <hr className="w-1" />
+          </div>
           <div className="flex items-center rounded-tr-full rounded-br-full">
             <input
               placeholder="https://long_url_example.com..."
               className="px-4 py-3 border-none bg-transparent focus:outline-none"
             />
-            <button className="flex bg-app-blue-500 text-app-text-white-500 px-4 py-3 rounded-full">Shorten <ScissorsIcon /></button>
+            <button className="flex bg-app-blue-500 text-app-text-white-500 px-4 py-3 rounded-full">
+              Shorten <ScissorsIcon />
+            </button>
           </div>
-
         </div>
 
         <HistoryTable />
       </SignedIn>
 
       <SignedOut>
-
         {/* Message Box
     <div className="bg-app-white-200 text-app-blue-500 p-4 rounded-lg shadow-lg text-left">
       <p>If you are seeing this message, then an API KEY<br />

@@ -4,6 +4,7 @@ const schemaDefinition = {
   id: {
     type: String,
     required: true,
+<<<<<<< HEAD
     unique: true
   },
   userId: {
@@ -17,10 +18,26 @@ const schemaDefinition = {
   original: {
     type: String,
     require: true
+=======
+    unique: true,
+  },
+  userId: {
+    type: String,
+    require: true,
+  },
+  name: {
+    type: String,
+    default: "",
+  },
+  original: {
+    type: String,
+    require: true,
+>>>>>>> 4d451c0 (build onboarding form changing the redirect route to app/onboarding)
   },
   short: {
     type: String,
     require: true,
+<<<<<<< HEAD
     unique: true
   },
   clicks: {
@@ -30,6 +47,17 @@ const schemaDefinition = {
   status: {
     type: String,
     default: ['active', 'inactive']
+=======
+    unique: true,
+  },
+  clicks: {
+    type: Number,
+    default: 0,
+  },
+  status: {
+    type: String,
+    default: ["active", "inactive"],
+>>>>>>> 4d451c0 (build onboarding form changing the redirect route to app/onboarding)
   },
   password: {
     type: String,
@@ -38,6 +66,12 @@ const schemaDefinition = {
 
 const linkSchema = new Schema(schemaDefinition, { timestamps: true });
 
+<<<<<<< HEAD
 export const Link = model('Link', linkSchema);
 
 export type LinkDocument = InferRawDocType<typeof schemaDefinition>
+=======
+export const Link = model("Link", linkSchema);
+
+export type LinkDocument = InferRawDocType<typeof schemaDefinition>;
+>>>>>>> 4d451c0 (build onboarding form changing the redirect route to app/onboarding)

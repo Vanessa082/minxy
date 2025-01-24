@@ -9,14 +9,12 @@ export default function ResponsiveHistoryTable() {
       clicks: 2,
       status: "Active",
       date: "Mon Jan 20 2025",
-    }
+    },
   ];
 
   return (
     <div className="p-4 w-full">
-      <h2 className="text-lg font-semibold">
-        History
-      </h2>
+      <h2 className="text-lg font-semibold">History</h2>
       {/* Desktop View */}
       <div className="max-lg:hidden xl:block  border border-app-dark-300 rounded-lg shadow">
         <table className="min-w-full">
@@ -44,19 +42,24 @@ export default function ResponsiveHistoryTable() {
           </thead>
           <tbody className="divide-y divide-app-dark-500">
             {data.map((item, index) => (
-              <tr
-                key={index}
-                className=""
-              >
-                <td className="px-5 py-4 break-words whitespace-normal">{item.miniLink}</td>
-                <td className="px-5 py-4 break-words whitespace-normal">{item.originalLink}</td>
-                <td className="px-5 py-4 break-words whitespace-normal">{item.clicks}</td>
+              <tr key={index} className="">
+                <td className="px-5 py-4 break-words whitespace-normal">
+                  {item.miniLink}
+                </td>
+                <td className="px-5 py-4 break-words whitespace-normal">
+                  {item.originalLink}
+                </td>
+                <td className="px-5 py-4 break-words whitespace-normal">
+                  {item.clicks}
+                </td>
                 <td className="px-5 py-4 break-words whitespace-normal">
                   <span className="inline-block px-3 py-1 text-xs font-semibold bg-app-blue-500 text-app-white-500 rounded-full">
                     {item.status}
                   </span>
                 </td>
-                <td className="px-5 py-4 brea-xstext-xs truncateords whitespace-normal">{item.date}</td>
+                <td className="px-5 py-4 brea-xstext-xs truncateords whitespace-normal">
+                  {item.date}
+                </td>
                 <td className="px-5 py-4 flex items-center gap-3">
                   <button
                     className="w-5 h-5 text-blue-500 hover:text-blue-700 focus:outline-none"
@@ -93,9 +96,7 @@ export default function ResponsiveHistoryTable() {
             className="bg-strict-dark-300 p-4 mb-4 rounded-lg shadow"
           >
             <div className="flex justify-between items-center">
-              <span className="font-medium text-xs">
-                Mini Link:
-              </span>
+              <span className="font-medium text-xs">Mini Link:</span>
               <a
                 href={item.miniLink}
                 target="_blank"
@@ -106,31 +107,21 @@ export default function ResponsiveHistoryTable() {
               </a>
             </div>
             <div className="mt-2">
-              <span className="font-medium text-xs">
-                Original Link:
-              </span>
+              <span className="font-medium text-xs">Original Link:</span>
               <p className="text-xs break-words whitespace-normal">
                 {item.originalLink}
               </p>
             </div>
             <div className="flex justify-between mt-2">
-              <span className="font-medium text-xs">
-                Clicks:
-              </span>
-              <span className="text-sm">
-                {item.clicks}
-              </span>
+              <span className="font-medium text-xs">Clicks:</span>
+              <span className="text-sm">{item.clicks}</span>
             </div>
             <div className="flex justify-between mt-2">
-              <span className="font-medium text-xs">
-                Status:
-              </span>
+              <span className="font-medium text-xs">Status:</span>
               <span className="text-sm text-app-blue-500">{item.status}</span>
             </div>
             <div className="flex justify-between mt-2">
-              <span className="font-medium text-xs">
-                Date:
-              </span>
+              <span className="font-medium text-xs">Date:</span>
               <span className="text-xs truncate">{item.date}</span>
             </div>
             <div className="flex gap-2 mt-3">
@@ -162,9 +153,6 @@ export default function ResponsiveHistoryTable() {
     </div>
   );
 }
-
-
-
 
 // import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
 
