@@ -24,4 +24,4 @@ const userSchema = new Schema(schemaDefinition, { timestamps: true })
 
 export const UserModel = model('User', userSchema)
 
-export type RawUserDocument = InferRawDocType<typeof schemaDefinition>;
+export type UserDocument = InferRawDocType<typeof schemaDefinition>;
