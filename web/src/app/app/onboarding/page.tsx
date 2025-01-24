@@ -1,4 +1,4 @@
-import { OnboardingPage } from "@/core/features/pages/onboarding-page";
+import { OnboardingPage } from "@/features/pages/onboarding-page";
 
 export default function Onboarding() {
   return <OnboardingPage />;

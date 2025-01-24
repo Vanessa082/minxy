@@ -8,23 +8,6 @@ const schemaDefinition = {
   },
   clerkId: {
     type: String,
-<<<<<<< HEAD
-    required: true
-  },
-  name: {
-    type: String,
-    required: true
-  },
-  email: {
-    type: String,
-    required: true
-  },
-} as const;
-
-const userSchema = new Schema(schemaDefinition, { timestamps: true })
-
-export const UserModel = model('User', userSchema)
-=======
     required: true,
   },
   name: {
@@ -40,6 +23,5 @@ export const UserModel = model('User', userSchema)
 const userSchema = new Schema(schemaDefinition, { timestamps: true });
 
 export const UserModel = model("User", userSchema);
->>>>>>> 4d451c0 (build onboarding form changing the redirect route to app/onboarding)
 
 export type UserDocument = InferRawDocType<typeof schemaDefinition>;

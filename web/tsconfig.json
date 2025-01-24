@@ -21,6 +21,8 @@
     "paths": {
       "@/lib/*": ["./src/core/lib/*"],
       "@/components/*": ["./src/core/components/*"],
+      "@/server/*": ["./src/core/server/*"],
+      "@/features/*": ["./src/core/features/*"],
       "@/core/*": ["./src/core/*"],
       "@/*": ["./src/*"]
     }

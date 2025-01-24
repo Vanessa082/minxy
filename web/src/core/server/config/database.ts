@@ -1,31 +1,18 @@
-<<<<<<< HEAD
-import mongoose from "mongoose"
-
- const connectDB = async () =>{
-  if(mongoose.connections[0].readyState) return true;
-  try {
-    await mongoose.connect(process.env.MONGO_URI!);
-    console.log('Database connected successfully')
-    return true
-  } catch (error) {
-    console.log(error)
-  }
-}
-
-export default connectDB
-=======
 import mongoose from "mongoose";
 
 const connectDB = async () => {
-  if (mongoose.connections[0].readyState) return true;
+  if (mongoose?.connections && mongoose?.connections[0]?.readyState) {
+    console.log("\nDatabase already connected\n");
+    return true;
+  }
+
   try {
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log("Database connected successfully");
+    console.log("\nDatabase connected successfully\n");
     return true;
   } catch (error) {
     console.log(error);
   }
 };
 
-export default connectDB;
->>>>>>> 4d451c0 (build onboarding form changing the redirect route to app/onboarding)
+export { connectDB };
