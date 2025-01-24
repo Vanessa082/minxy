@@ -4,7 +4,6 @@ const publicRoutes = [
   "/app",
   "/app/sign-in(.*)",
   "/app/sign-up(.*)",
-  "/app/api(.*)",
 ];
 
 const isPublicRoute = createRouteMatcher(publicRoutes)
