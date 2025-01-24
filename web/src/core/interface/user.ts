@@ -1,6 +1,6 @@
 interface User {
   clerkId: string,
-  username: string,
+  name: string,
   email: string,
 }
 

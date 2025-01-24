@@ -1,21 +1,27 @@
-import { User } from "@/core/interface/user";
-import { model, models, Schema } from "mongoose";
+import { InferRawDocType, model, Schema } from "mongoose";
 
-const userSchema = new Schema({
+const schemaDefinition = {
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+  },
   clerkId: {
     type: String,
-    require: true
+    required: true
   },
   name: {
     type: String,
-    require: true
+    required: true
   },
   email: {
     type: String,
-    require: true
+    required: true
   },
-}, { timestamps: true })
+} as const;
 
-const UserModel = models.User || model<User>('User', userSchema)
+const userSchema = new Schema(schemaDefinition, { timestamps: true })
 
-export default UserModel;
+export const UserModel = model('User', userSchema)
+
+export type RawUserDocument = InferRawDocType<typeof schemaDefinition>;
