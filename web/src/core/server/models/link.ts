@@ -5,11 +5,15 @@ const linkSchema = new Schema({
     type: String,
     require: true
   },
-  originalLink: {
+  name: {
+    type: String,
+    default: ''
+  },
+  original: {
     type: String,
     require: true
   },
-  shortLink: {
+  short: {
     type: String,
     require: true,
     unique: true
@@ -18,10 +22,13 @@ const linkSchema = new Schema({
     type: Number,
     default: 0
   },
-  Status: {
-    type: Boolean
+  status: {
+    type: String,
+    default: ['active', 'inactive']
   },
-
+  password: {
+    type: String,
+  },
   createdAt: {
     type: Date,
     default: Date.now

@@ -6,7 +6,7 @@ const userSchema = new Schema({
     type: String,
     require: true
   },
-  username: {
+  name: {
     type: String,
     require: true
   },
@@ -24,6 +24,6 @@ const userSchema = new Schema({
   }
 }, { timestamps: true })
 
-const User = models.User || model<IUser>('User', userSchema)
+const UserModel = models.User || model<IUser>('User', userSchema)
 
-export default User;
+export default UserModel;
