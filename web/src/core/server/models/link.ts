@@ -1,6 +1,11 @@
-import { model, models, Schema } from "mongoose";
+import { InferRawDocType, model, Schema } from "mongoose";
 
-const linkSchema = new Schema({
+const schemaDefinition = {
+  id: {
+    type: String,
+    required: true,
+    unique: true
+  },
   userId: {
     type: String,
     require: true
@@ -29,8 +34,10 @@ const linkSchema = new Schema({
   password: {
     type: String,
   },
-}, { timestamps: true })
+} as const;
 
-const Link = models.Link || model('Link', linkSchema)
+const linkSchema = new Schema(schemaDefinition, { timestamps: true });
 
-export default Link
+export const Link = model('Link', linkSchema);
+
+export type LinkDocument = InferRawDocType<typeof schemaDefinition>
