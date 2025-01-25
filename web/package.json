@@ -2,6 +2,11 @@
   "name": "minx",
   "version": "0.1.0",
   "private": true,
+  "lint-staged": {
+    "src/**/*.{ts,tsx,css}": [
+      "pnpm format"
+    ]
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
