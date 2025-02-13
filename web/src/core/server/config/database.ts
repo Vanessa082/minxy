@@ -1,14 +1,18 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
- const connectDB = async () =>{
-  if(mongoose.connections[0].readyState) return true;
+const connectDB = async () => {
+  if (mongoose?.connections && mongoose?.connections[0]?.readyState) {
+    console.log("\nDatabase already connected\n");
+    return true;
+  }
+
   try {
     await mongoose.connect(process.env.MONGO_URI!);
-    console.log('Database connected successfully')
-    return true
+    console.log("\nDatabase connected successfully\n");
+    return true;
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}
+};
 
-export default connectDB
+export { connectDB };

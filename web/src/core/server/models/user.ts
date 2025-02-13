@@ -1,4 +1,4 @@
-import { InferRawDocType, model, Schema } from "mongoose";
+import mongoose, { InferRawDocType, model, Schema } from "mongoose";
 
 const schemaDefinition = {
   id: {
@@ -8,20 +8,45 @@ const schemaDefinition = {
   },
   clerkId: {
     type: String,
-    required: true
+    required: true,
   },
   name: {
     type: String,
-    required: true
+    required: true,
   },
   email: {
     type: String,
-    required: true
+    required: true,
   },
 } as const;
 
-const userSchema = new Schema(schemaDefinition, { timestamps: true })
+const userSchema = new Schema(schemaDefinition, {
+  timestamps: true,
+  /**
+   * Google on mongoose `toObject` and `toJSON` transform methods to better understand.
+   * also checkout this article @see https://alexanderzeitler.com/articles/mongoose-tojson-toobject-transform-with-subdocuments/
+   */
+  toObject: {
+    transform: function (doc, ret) {
+      delete ret._id;
 
-export const UserModel = model('User', userSchema)
+      ret.name = ret.name;
+    },
+  },
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret._id;
+
+      ret.name = ret.name;
+    },
+  },
+});
+
+/**
+ * Was get the error `OverwriteModelError: Cannot overwrite 'User' model once compiled
+ *
+ * @see https://stackoverflow.com/a/43761258/21746512 on stack overflow
+ */
+export const UserModel = mongoose.models.User || model("User", userSchema);
 
 export type UserDocument = InferRawDocType<typeof schemaDefinition>;
