@@ -1,4 +1,4 @@
-import { InferRawDocType, model, Schema } from "mongoose";
+import mongoose, { InferRawDocType, model, Schema } from "mongoose";
 
 const schemaDefinition = {
   id: {
@@ -36,8 +36,20 @@ const schemaDefinition = {
   },
 } as const;
 
-const linkSchema = new Schema(schemaDefinition, { timestamps: true });
+const urlSchema = new Schema(schemaDefinition, {
+  timestamps: true,
+  toObject: {
+    transform: function (doc, ret) {
+      delete ret._id;
+    },
+  },
+  toJSON: {
+    transform: function (doc, ret) {
+      delete ret._id;
+    },
+  },
+});
 
-export const Link = model("Link", linkSchema);
+export const UrlModel = mongoose.models.URL || model("URL", urlSchema);
 
-export type LinkDocument = InferRawDocType<typeof schemaDefinition>;
+export type UrlDocument = InferRawDocType<typeof schemaDefinition>;

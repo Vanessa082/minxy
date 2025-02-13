@@ -31,10 +31,10 @@ export function OnboardingPage() {
 
   const onSubmit = async (data: OnboardingPageForm) => {
     setLoading(true);
-    await Fetcher<OnboardingPageForm>("/onboarding", {
+    await Fetcher<OnboardingPageForm>("/auth/new-user", {
       method: "POST",
       body: data,
-    });
+    }).finally(() => setLoading(false));
   };
 
   useEffect(() => {

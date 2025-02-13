@@ -1,18 +1,15 @@
-import { connectDB } from "@/server/config/database";
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const publicRoutes = ["/app", "/app/sign-in(.*)", "/app/sign-up(.*)"];
+const publicRoutes = ["/", "/app", "/app/sign-in(.*)", "/app/sign-up(.*)"];
 
 const isPublicRoute = createRouteMatcher(publicRoutes);
-
-connectDB().then(console.log);
 
 export default clerkMiddleware(
   async (auth, req) => {
     if (!isPublicRoute(req)) await auth.protect();
   },
   {
-    debug: false,
+    debug: false, // process.env.NODE_ENV === "development",
   },
 );
 
