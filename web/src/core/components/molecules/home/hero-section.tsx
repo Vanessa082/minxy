@@ -1,11 +1,15 @@
 import { MainTag } from "@/components/atoms";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
+import { WithCurrentUserComponentProps, CurrentUserProvider } from "@/features/providers/current-user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { LinkIcon, ScissorsIcon } from "lucide-react";
 import Link from "next/link";
 
-export default function HeroSection() {
+
+function HeroSection(props: WithCurrentUserComponentProps) {
+  console.log({ props });
+
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
@@ -19,22 +23,25 @@ export default function HeroSection() {
 
       <SignedIn>
         <div className="flex items-center gap-4 px-4 py-3 border-2 border-app-dark-500 rounded-full ">
-          <div className="flex items-center gap-2"><LinkIcon />Enter the link here <hr className="w-1" /></div>
+          <div className="flex items-center gap-2">
+            <LinkIcon />
+            Enter the link here <hr className="w-1" />
+          </div>
           <div className="flex items-center rounded-tr-full rounded-br-full">
             <input
               placeholder="https://long_url_example.com..."
               className="px-4 py-3 border-none bg-transparent focus:outline-none"
             />
-            <button className="flex bg-app-blue-500 text-app-text-white-500 px-4 py-3 rounded-full">Shorten <ScissorsIcon /></button>
+            <button className="flex bg-app-blue-500 text-app-text-white-500 px-4 py-3 rounded-full">
+              Shorten <ScissorsIcon />
+            </button>
           </div>
-
         </div>
 
         <HistoryTable />
       </SignedIn>
 
       <SignedOut>
-
         {/* Message Box
     <div className="bg-app-white-200 text-app-blue-500 p-4 rounded-lg shadow-lg text-left">
       <p>If you are seeing this message, then an API KEY<br />
@@ -57,3 +64,5 @@ export default function HeroSection() {
     </MainTag>
   );
 }
+
+export default CurrentUserProvider(HeroSection);
