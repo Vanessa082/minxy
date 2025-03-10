@@ -1,13 +1,29 @@
-type Methods = "POST" | "GET" | "PUT";
+import { APIResponse } from "@/server/req-res";
 
-interface APIResponse<T = null> {
-  message: string;
-  status: number;
-  data: T;
-}
+type Methods = "POST" | "GET" | "PUT";
 
 const BASE_URL =
   process.env.FRONT_END_URL || process.env.NEXT_PUBLIC_FRONT_END_URL;
+
+const buildUrl = (pathname: string, queries?: Record<string, string>) => {
+  if (!BASE_URL) {
+    throw new Error("BASE_URL is not defined! update Environment variables");
+  }
+
+  let url = BASE_URL;
+
+  if (pathname.startsWith('/')) {
+    url += pathname;
+  } else {
+    url += `/${pathname}`;
+  }
+
+  if (queries && Object.keys(queries).length) {
+    url += `?${new URLSearchParams(queries).toString()}`;
+  }
+
+  return url;
+}
 
 export function Fetcher<T>(
   pathname: string,
@@ -20,7 +36,9 @@ export function Fetcher<T>(
 ): Promise<APIResponse<T>> {
   const OPTIONS = {
     method: options?.method || "GET",
-    headers: options?.headers || {},
+    headers: {
+      "Content-Type": "application/json",
+    },
   };
 
   if (options?.body) {
@@ -29,11 +47,20 @@ export function Fetcher<T>(
     );
   }
 
-  let reqUrl = `${BASE_URL}/${pathname}`;
-
-  if (options?.queries) {
-    reqUrl += `?${new URLSearchParams(options.queries).toString()}`;
+  if (options?.headers) {
+    OPTIONS.headers = {
+      ...OPTIONS.headers,
+      ...options.headers,
+    }
   }
 
-  return fetch(reqUrl, OPTIONS).then((res) => res.json());
+  const reqUrl = buildUrl(pathname, options?.queries);
+
+  return fetch(new URL(reqUrl), OPTIONS).then((res) => {
+    if (res.headers.get("content-type")?.includes("json")) {
+      return res.json();
+    }
+
+    return res.text();
+  });
 }

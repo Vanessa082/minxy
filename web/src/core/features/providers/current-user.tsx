@@ -1,4 +1,4 @@
-// import { Fetcher } from "@/lib/fetch";
+import { Fetcher } from "@/lib/fetch";
 import { type UserDocument } from "@/server/models/user";
 import { auth } from "@clerk/nextjs/server";
 // import { redirect } from "next/navigation";
@@ -14,9 +14,7 @@ export function CurrentUserProvider<T = object>(
   Component: FC<WithCurrentUserComponentProps<T>>,
 ) {
   return async function Guard(props: ExcludeUser<T>) {
-    // const res = await Fetcher<UserDocument | null>("/auth/current-user", {
-    //   method: "GET",
-    // });
+    // const r = await Fetcher<UserDocument | null>("/auth/current-user");
 
     const { userId } = await auth();
 
@@ -29,8 +27,14 @@ export function CurrentUserProvider<T = object>(
         id: userId,
         name: "username",
         email: "user@gmail.com",
-      } as UserDocument,
+      } as unknown as UserDocument,
     };
+
+    // if (typeof r === 'string') {
+    //   return <div dangerouslySetInnerHTML={{
+    //     __html: r
+    //   }} />;
+    // }
 
     return <Component {...(props as T)} user={res.data} />;
   };
