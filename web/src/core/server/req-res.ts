@@ -19,7 +19,7 @@ export const newApiResponse = <T = null>(res: ServerResponse<T>): Response => {
       status: res.status,
     },
     {
-      status: 200,
+      status: res.status,
       headers: res.headers,
     },
   );

@@ -31,9 +31,9 @@ export function CurrentUserProvider<T = object>(
     if (res.data) {
       user = {
         id: res.data?.id,
-        clerkId: res.data?.clerkId || "clerkId",
-        name: res.data?.name || "username",
-        email: res.data?.email || "user@gmail.com",
+        clerkId: res.data?.clerkId,
+        name: res.data?.name,
+        email: res.data?.email,
         createdAt: res.data?.createdAt,
         updatedAt: res.data?.updatedAt,
       };

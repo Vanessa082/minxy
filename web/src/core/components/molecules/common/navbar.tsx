@@ -1,9 +1,8 @@
 import ModeToggle from "@/components/atoms/mode-toggle";
-import { SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
-import { UserCircle } from "lucide-react";
 import Link from "next/link";
+import { UserButton } from "./user-button";
 
-export function NavBar() {
+export async function NavBar() {
   return (
     <div className="w-full h-fit shadow dark:shadow-gray-800">
       <nav className="mx-auto w-app-w text-app-blue-500 flex justify-between items-center py-3">
@@ -14,15 +13,8 @@ export function NavBar() {
         </Link>
         <div className="flex items-center justify-between gap-2">
           <ModeToggle />
-          <SignedOut>
-            <Link href="/sign-in">
-              <UserCircle className="size-8 cursor-pointer" />
-            </Link>
-          </SignedOut>
 
-          <SignedIn>
-            <UserButton />
-          </SignedIn>
+          <UserButton />
         </div>
       </nav>
     </div>

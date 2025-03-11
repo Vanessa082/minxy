@@ -10,7 +10,7 @@ interface HeroSectionProps {
   user: UserDocument | null;
 }
 
-export function HeroSection({ /* user */ }: HeroSectionProps) {
+export function HeroSection({} /* user */ : HeroSectionProps) {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
