@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       headers: {
         "Set-Cookie":
           'notification="error failed to validate data"; notificationStatus=error; path=/',
-      }
+      },
     });
   }
 

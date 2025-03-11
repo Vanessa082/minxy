@@ -1,4 +1,5 @@
 import mongoose, { InferRawDocType, model, Schema } from "mongoose";
+import type { BaseDocumentRead } from "./base";
 
 const schemaDefinition = {
   id: {
@@ -52,4 +53,6 @@ const urlSchema = new Schema(schemaDefinition, {
 
 export const UrlModel = mongoose.models.URL || model("URL", urlSchema);
 
-export type UrlDocument = InferRawDocType<typeof schemaDefinition>;
+export type UrlDocument = BaseDocumentRead<
+  InferRawDocType<typeof schemaDefinition>
+>;

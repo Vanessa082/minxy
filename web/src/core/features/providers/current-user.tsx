@@ -1,7 +1,7 @@
 import { Fetcher } from "@/lib/fetch";
 import { type UserDocument } from "@/server/models/user";
 import { auth } from "@clerk/nextjs/server";
-// import { redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import type { FC } from "react";
 
 export type WithCurrentUserComponentProps<T = object> = T & {
@@ -14,28 +14,42 @@ export function CurrentUserProvider<T = object>(
   Component: FC<WithCurrentUserComponentProps<T>>,
 ) {
   return async function Guard(props: ExcludeUser<T>) {
-    // const r = await Fetcher<UserDocument | null>("/auth/current-user");
-
     const { userId } = await auth();
+    const res = await Fetcher<UserDocument | null>("/auth/current-user", {
+      queries: {
+        clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
+      },
+    });
 
-    // if (userId && !res.data) {
-    //   redirect('/app/onboarding');
-    // }
+    if (userId && !res.data) {
+      // meaning user is signed up on clerk but not in our database
+      redirect("/app/onboarding");
+    }
 
-    const res = {
-      data: {
-        id: userId,
-        name: "username",
-        email: "user@gmail.com",
-      } as unknown as UserDocument,
-    };
+    let user: UserDocument | null = null;
 
-    // if (typeof r === 'string') {
-    //   return <div dangerouslySetInnerHTML={{
-    //     __html: r
-    //   }} />;
-    // }
+    if (res.data) {
+      user = {
+        id: res.data?.id,
+        clerkId: res.data?.clerkId || "clerkId",
+        name: res.data?.name || "username",
+        email: res.data?.email || "user@gmail.com",
+        createdAt: res.data?.createdAt,
+        updatedAt: res.data?.updatedAt,
+      };
+    }
 
-    return <Component {...(props as T)} user={res.data} />;
+    if (typeof res === "string") {
+      // could come as 404 page which will be a string
+      return (
+        <div
+          dangerouslySetInnerHTML={{
+            __html: res,
+          }}
+        />
+      );
+    }
+
+    return <Component {...(props as T)} user={user} />;
   };
 }

@@ -18,7 +18,6 @@ import { useUser } from "@clerk/nextjs";
 import { useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
-import {} from "@/lib/id";
 import { Fetcher } from "@/lib/fetch";
 
 export function OnboardingPage() {
@@ -61,7 +60,7 @@ export function OnboardingPage() {
         />
 
         <p className="text-sm text-app-white-300 text-center mt-1">
-          Welcome! Please fill in the details to get started.
+          Welcome! Please fill in the details to complete sign up
         </p>
         <Form {...form}>
           <form

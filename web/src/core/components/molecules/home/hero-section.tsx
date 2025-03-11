@@ -1,40 +1,21 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import type { UserDocument } from "@/server/models/user";
-import { Fetcher } from "@/lib/fetch";
-
 import { MainTag } from "@/components/atoms";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
+import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { LinkIcon, ScissorsIcon } from "lucide-react";
 import Link from "next/link";
 
-export function HeroSection() {
-  const [res, setRes] = useState<object | null>(null);
+interface HeroSectionProps {
+  user: UserDocument | null;
+}
 
-  useEffect(() => {
-    (async () => {
-      const r = await Fetcher<UserDocument | null>("/auth/current-user", {
-        method: "GET",
-        queries: {
-          name: "rash_edmund"
-        }
-      });
-
-      setRes(r);
-    })();
-  }, []);
+export function HeroSection({ user }: HeroSectionProps) {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
         Shorten Your Looong URL &#58; &#41;
       </h1>
-
-      <pre>
-        {JSON.stringify(res, null, 2)}
-      </pre>
 
       <p className="text-app-dark-200 text-sm text-center">
         Mini link is an efficient and easy-to-use URL shortening service that

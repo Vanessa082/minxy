@@ -12,7 +12,7 @@ const buildUrl = (pathname: string, queries?: Record<string, string>) => {
 
   let url = BASE_URL;
 
-  if (pathname.startsWith('/')) {
+  if (pathname.startsWith("/")) {
     url += pathname;
   } else {
     url += `/${pathname}`;
@@ -23,7 +23,7 @@ const buildUrl = (pathname: string, queries?: Record<string, string>) => {
   }
 
   return url;
-}
+};
 
 export function Fetcher<T>(
   pathname: string,
@@ -51,13 +51,14 @@ export function Fetcher<T>(
     OPTIONS.headers = {
       ...OPTIONS.headers,
       ...options.headers,
-    }
+    };
   }
 
   const reqUrl = buildUrl(pathname, options?.queries);
 
   return fetch(new URL(reqUrl), OPTIONS).then((res) => {
     if (res.headers.get("content-type")?.includes("json")) {
+      // high chance it's {content-type: application/json} thus res.json()
       return res.json();
     }
 

@@ -1,57 +1,38 @@
 import { connectDB } from "@/server/config/database";
-// import { userRepo } from "@/server/repository/user.repo";
-import { newSuccessApiResponse } from "@/server/req-res";
+import { userRepo } from "@/server/repository/user.repo";
+import {
+  newNotFoundApiResponse,
+  newSuccessApiResponse,
+} from "@/server/req-res";
 import { auth } from "@clerk/nextjs/server";
 
-// export async function GET(req: Request) {
-//   console.log(req);
-//   const { userId } = await auth();
+export async function GET(req: Request) {
+  const searchParams = new URL(req.url).searchParams;
 
-//   await connectDB();
+  const clerkAuth = await auth();
 
-//   return newSuccessApiResponse({
-//     message: "User found",
-//     data: {
-//       id: userId,
-//       name: "username",
-//       email: "user@gmail.com",
-//     },
-//   });
+  const clerkId = clerkAuth.userId || searchParams.get("clerkId");
 
-//   // const userNotFound = () => {
-//   //   return Response.json(
-//   //     {
-//   //       message: "User not found",
-//   //       data: {},
-//   //     },
-//   //     {
-//   //       status: 404,
-//   //     },
-//   //   );
-//   // };
-
-//   // if (!userId) {
-//   //   return userNotFound();
-//   // }
-
-//   // const user = await userRepo.getByClerkId(userId);
-
-//   // if (!user) {
-//   //   return userNotFound();
-//   // }
-
-//   // return newSuccessApiResponse({
-//   //   message: "User found",
-//   //   data: user,
-//   // });
-// }
-
-
-export async function GET() {
-  return {
-    data: {
-      name: "John Doe",
-      email: "johndoe@gmail.com",
-    }
+  if (!clerkId) {
+    return newNotFoundApiResponse({
+      message: "User not found",
+      data: null,
+    });
   }
+
+  await connectDB();
+
+  const user = await userRepo.getByClerkId(clerkId);
+
+  if (!user) {
+    return newNotFoundApiResponse({
+      message: "User not found",
+      data: null,
+    });
+  }
+
+  return newSuccessApiResponse({
+    message: "User found",
+    data: user,
+  });
 }
