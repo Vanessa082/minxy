@@ -5,6 +5,7 @@ import {
 import { newPrefixedId } from "@/lib/id";
 import { connectDB } from "@/server/config/database";
 import { userRepo } from "@/server/repository/user.repo";
+import { newBadRequestApiResponse } from "@/server/req-res";
 import { redirect } from "next/navigation";
 import { type NextRequest } from "next/server";
 
@@ -16,18 +17,14 @@ export async function POST(req: NextRequest) {
   const { data, error } = onboardingFormSchema.safeParse(body);
 
   if (error || !Object.keys(data).length) {
-    return Response.json(
-      {
-        message: "Error",
+    return newBadRequestApiResponse({
+      message: "Error",
+      data: null,
+      headers: {
+        "Set-Cookie":
+          'notification="error failed to validate data"; notificationStatus=error; path=/',
       },
-      {
-        status: 400,
-        headers: {
-          "Set-Cookie":
-            'notification="error failed to validate data"; notificationStatus=error; path=/',
-        },
-      },
-    );
+    });
   }
 
   const prev = await userRepo.getByClerkId(data.clerkId);

@@ -1,15 +1,16 @@
 import { MainTag } from "@/components/atoms";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
-import { WithCurrentUserComponentProps, CurrentUserProvider } from "@/features/providers/current-user";
+import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { LinkIcon, ScissorsIcon } from "lucide-react";
 import Link from "next/link";
 
+interface HeroSectionProps {
+  user: UserDocument | null;
+}
 
-function HeroSection(props: WithCurrentUserComponentProps) {
-  console.log({ props });
-
+export function HeroSection({} /* user */ : HeroSectionProps) {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
@@ -64,5 +65,3 @@ function HeroSection(props: WithCurrentUserComponentProps) {
     </MainTag>
   );
 }
-
-export default CurrentUserProvider(HeroSection);

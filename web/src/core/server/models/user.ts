@@ -1,4 +1,5 @@
 import mongoose, { InferRawDocType, model, Schema } from "mongoose";
+import type { BaseDocumentRead } from "./base";
 
 const schemaDefinition = {
   id: {
@@ -9,6 +10,7 @@ const schemaDefinition = {
   clerkId: {
     type: String,
     required: true,
+    unique: true,
   },
   name: {
     type: String,
@@ -49,4 +51,6 @@ const userSchema = new Schema(schemaDefinition, {
  */
 export const UserModel = mongoose.models.User || model("User", userSchema);
 
-export type UserDocument = InferRawDocType<typeof schemaDefinition>;
+export type UserDocument = BaseDocumentRead<
+  InferRawDocType<typeof schemaDefinition>
+>;
