@@ -1,6 +1,11 @@
 import mongoose, { InferRawDocType, model, Schema } from "mongoose";
 import type { BaseDocumentRead } from "./base";
 
+export enum UrlStatus {
+  active = "active",
+  inactive = "inactive",
+}
+
 const schemaDefinition = {
   id: {
     type: String,
@@ -19,7 +24,7 @@ const schemaDefinition = {
     type: String,
     require: true,
   },
-  short: {
+  shortId: {
     type: String,
     require: true,
     unique: true,
@@ -30,10 +35,17 @@ const schemaDefinition = {
   },
   status: {
     type: String,
-    default: ["active", "inactive"],
+    enum: Object.values(UrlStatus),
+    default: UrlStatus.active,
   },
   password: {
     type: String,
+  },
+  deletedAt: {
+    type: Date,
+    required: false,
+    nullable: true,
+    default: null,
   },
 } as const;
 
