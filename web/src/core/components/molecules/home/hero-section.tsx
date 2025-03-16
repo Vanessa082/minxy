@@ -1,9 +1,9 @@
 import { MainTag } from "@/components/atoms";
+import SearchBar from "@/components/atoms/search-bar";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
 import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
-import { LinkIcon, ScissorsIcon } from "lucide-react";
 import Link from "next/link";
 
 interface HeroSectionProps {
@@ -23,21 +23,7 @@ export function HeroSection({} /* user */ : HeroSectionProps) {
       </p>
 
       <SignedIn>
-        <div className="flex items-center gap-4 px-4 py-3 border-2 border-app-dark-500 rounded-full ">
-          <div className="flex items-center gap-2">
-            <LinkIcon />
-            Enter the link here <hr className="w-1" />
-          </div>
-          <div className="flex items-center rounded-tr-full rounded-br-full">
-            <input
-              placeholder="https://long_url_example.com..."
-              className="px-4 py-3 border-none bg-transparent focus:outline-none"
-            />
-            <button className="flex bg-app-blue-500 text-app-text-white-500 px-4 py-3 rounded-full">
-              Shorten <ScissorsIcon />
-            </button>
-          </div>
-        </div>
+        <SearchBar />
 
         <HistoryTable />
       </SignedIn>

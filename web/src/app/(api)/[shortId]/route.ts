@@ -3,7 +3,8 @@
 // import { connectDB } from "@/server/config/database";
 import { NextRequest } from "next/server";
 
-const minxyGoDaddy = 'https://www.godaddy.com/en-ie/domainsearch/find?domainToCheck=minxy.dev&tmskey=sem_godaddy_brand'
+const minxyGoDaddy =
+  "https://www.godaddy.com/en-ie/domainsearch/find?domainToCheck=minxy.dev&tmskey=sem_godaddy_brand";
 
 export async function GET(req: NextRequest) {
   // await connectDB();
