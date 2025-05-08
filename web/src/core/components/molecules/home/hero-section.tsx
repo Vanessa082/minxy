@@ -1,5 +1,5 @@
 import { MainTag } from "@/components/atoms";
-import SearchBar from "@/components/atoms/search-bar";
+import LinkShortenerField from "@/components/atoms/link-shortener-field";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
 import type { UserDocument } from "@/server/models/user";
@@ -10,7 +10,7 @@ interface HeroSectionProps {
   user: UserDocument | null;
 }
 
-export function HeroSection({} /* user */ : HeroSectionProps) {
+export function HeroSection({ } /* user */: HeroSectionProps) {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
@@ -23,8 +23,7 @@ export function HeroSection({} /* user */ : HeroSectionProps) {
       </p>
 
       <SignedIn>
-        <SearchBar />
-
+        <LinkShortenerField user={null} />
         <HistoryTable />
       </SignedIn>
 

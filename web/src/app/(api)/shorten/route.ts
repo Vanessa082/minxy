@@ -7,8 +7,8 @@ import {
   newBadRequestApiResponse,
   newSuccessApiResponse,
 } from "@/server/req-res";
-import { customAlphabet } from "nanoid";
 import { NextRequest } from "next/server";
+import { shortId } from "@/lib/id"
 
 export async function POST(req: NextRequest) {
   await connectDB();
@@ -33,10 +33,6 @@ export async function POST(req: NextRequest) {
       data: existingURL,
     });
   }
-
-  const nanoid = customAlphabet("1234567abcd", 6);
-
-  const shortId = nanoid();
 
   const newURL = await urlRepo.create({
     id: newPrefixedId("url"),
