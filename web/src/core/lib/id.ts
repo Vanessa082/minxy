@@ -12,10 +12,9 @@ export function newPrefixedId(prefix: keyof typeof prefixes): string {
 export function customNanoid(size: number = 6) {
   const uppercaseAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const lowerCaseAlphabet = uppercaseAlphabet.toLocaleLowerCase();
-  const randomNumbers = "0123456789"
-  return customAlphabet(uppercaseAlphabet + lowerCaseAlphabet + randomNumbers, size)
+  return customAlphabet(uppercaseAlphabet + lowerCaseAlphabet + "0123456789", size)
 }
 
-export function newShortId() {
-  return customNanoid(6)
+export function newShortId(): string {
+  return customNanoid(6)()
 }

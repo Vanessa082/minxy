@@ -1,5 +1,5 @@
 import { URLShortenerInputField, urlShortenerSchema } from "@/core/schema/url";
-import { newPrefixedId } from "@/lib/id";
+import { newPrefixedId, newShortId } from "@/lib/id";
 import { connectDB } from "@/server/config/database";
 import { UrlStatus } from "@/server/models/url";
 import { urlRepo } from "@/server/repository/url.repo";
@@ -8,7 +8,6 @@ import {
   newSuccessApiResponse,
 } from "@/server/req-res";
 import { NextRequest } from "next/server";
-import { shortId } from "@/lib/id"
 
 export async function POST(req: NextRequest) {
   await connectDB();
@@ -37,7 +36,7 @@ export async function POST(req: NextRequest) {
   const newURL = await urlRepo.create({
     id: newPrefixedId("url"),
     original,
-    shortId,
+    shortId: newShortId(),
     userId,
     clicks: 0,
     status: UrlStatus.active,
