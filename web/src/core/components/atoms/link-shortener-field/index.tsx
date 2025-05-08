@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Form } from "@/components/ui/form";
+// import { Form } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { URLShortenerInputField, URLShortenerInputFieldResolver } from "@/core/schema/url";
 import { WithCurrentUserComponentProps } from "@/features/providers/current-user";
@@ -34,7 +34,7 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
         </div>
 
         <Input
-          {...field}
+          // {...field}
           type="url"
           placeholder="Paste your long URL here..."
           className="w-full bg-transparent border-none text-sm text-gray-700 dark:text-gray-200 placeholder-gray-400 focus:outline-none focus:ring-0 focus-visible:outline-none focus-visible:ring-0"

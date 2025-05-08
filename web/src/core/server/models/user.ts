@@ -1,6 +1,6 @@
 import mongoose, { InferRawDocType, model, Schema } from "mongoose";
 import type { BaseDocumentRead } from "./base";
-import { nullable } from "zod";
+// import { nullable } from "zod";
 
 const schemaDefinition = {
   id: {
