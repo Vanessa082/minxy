@@ -1,5 +1,6 @@
 import mongoose, { InferRawDocType, model, Schema } from "mongoose";
 import type { BaseDocumentRead } from "./base";
+// import { nullable } from "zod";
 
 const schemaDefinition = {
   id: {
@@ -19,6 +20,12 @@ const schemaDefinition = {
   email: {
     type: String,
     required: true,
+  },
+  deletedAt: {
+    type: Date,
+    required: false,
+    nullable: true,
+    default: null,
   },
 } as const;
 
