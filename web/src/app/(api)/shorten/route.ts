@@ -1,4 +1,4 @@
-import { URLShortenerInputField, urlShortenerSchema } from "@/core/schema/url";
+import { URLShortenerInputField, urlShortenerRequestSchema, } from "@/core/schema/url";
 import { newPrefixedId, newShortId } from "@/lib/id";
 import { connectDB } from "@/server/config/database";
 import { UrlStatus } from "@/server/models/url";
@@ -13,16 +13,16 @@ export async function POST(req: NextRequest) {
   await connectDB();
   const body = (await req.json()) as URLShortenerInputField;
 
-  const { data, error } = urlShortenerSchema.safeParse(body);
+  const result = urlShortenerRequestSchema.safeParse(body);
 
-  if (error || data) {
+  if (!result.success) {
     return newBadRequestApiResponse({
       message: "Validation Failed",
       data: null,
     });
   }
 
-  const { original, userId } = data;
+  const { original, userId } = result.data;
 
   const existingURL = await urlRepo.findByOriginalAndUser(original, userId);
 

@@ -33,11 +33,14 @@ export function OnboardingPage() {
     await Fetcher<OnboardingPageForm>("/auth/new-user", {
       method: "POST",
       body: data,
-    }).finally(() => setLoading(false));
+    }
+    ).finally(() => setLoading(false));
   };
 
   useEffect(() => {
     if (isLoaded || user) {
+      console.log(user)
+
       form.reset({
         clerkId: user?.id || "",
         email: user?.primaryEmailAddress?.emailAddress || "",
