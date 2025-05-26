@@ -6,16 +6,15 @@ import { URLShortenerInputField, URLShortenerInputFieldResolver } from "@/core/s
 import { WithCurrentUserComponentProps } from "@/features/providers/current-user";
 import { Fetcher } from "@/lib/fetch";
 import { LinkIcon, ScissorsIcon } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
+  const [loading, setLoading] = useState(false);
   const form = useForm<URLShortenerInputField>({
     resolver: URLShortenerInputFieldResolver,
   })
-
-  // if (!user?.id) {
-  //   return <p>Loading…</p>;
-  // }
 
   const onSubmit = async (data: URLShortenerInputField) => {
     const payload = {
@@ -23,10 +22,17 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
       userId: user?.id
     }
     console.log("checking pay", payload)
-    await Fetcher<URLShortenerInputField>("/shorten", {
-      method: "POST",
-      body: payload
-    })
+    setLoading(true)
+    try {
+      await Fetcher<URLShortenerInputField>("/shorten", {
+        method: "POST",
+        body: payload
+      });
+      toast("URL successfully posted")
+      form.reset()
+    } catch (error) {
+      console.log("Error posting url", error)
+    } finally { setLoading(false) }
   }
   return (
     <form
@@ -46,8 +52,7 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
 
 
       <Button type="submit" className="flex items-center gap-2 bg-app-blue-500 hover:bg-app-blue-500 active:bg-app-blue-500 text-white font-medium p-6 rounded-full transition-all duration-200 shadow-md">
-        <ScissorsIcon className="w-4 h-4" />
-        <span className="hidden sm:inline">Shorten</span>
+        {loading ? "Shortening…" : <><ScissorsIcon className="w-4 h-4" /><span className="hidden sm:inline">Shorten</span></>}
       </Button>
     </form>
   );
