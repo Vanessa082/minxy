@@ -1,6 +1,6 @@
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
-  constructor(private readonly urlModel: typeof UrlModel) {}
+  constructor(private readonly urlModel: typeof UrlModel) { }
 
   async findByOriginalAndUser(original: string, userId: string) {
     return this.urlModel.findOne({ original, userId });
@@ -10,7 +10,15 @@ class URLRepo {
     try {
       return this.urlModel.create(data);
     } catch {
-      return null;
+      return [];
+    }
+  }
+
+  async getAllUrlByUserId(userId: string) {
+    try {
+      return this.urlModel.find({ userId });
+    } catch (error) {
+      return null
     }
   }
 

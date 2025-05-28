@@ -9,6 +9,17 @@ import { LinkIcon, ScissorsIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+export interface ShortenResponse {
+  id: string;
+  original: string;
+  shortId: string;
+  userId: string;
+  clicks: number;
+  status: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
 
 function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
   const [loading, setLoading] = useState(false);
@@ -21,14 +32,17 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
       ...data,
       userId: user?.id
     }
-    console.log("checking pay", payload)
+    console.log("checking pay", payload);
     setLoading(true)
     try {
-      await Fetcher<URLShortenerInputField>("/shorten", {
+      const result = await Fetcher<ShortenResponse>("/shorten", {
         method: "POST",
         body: payload
       });
-      toast("URL successfully posted")
+
+      const { shortId } = result.data
+      const shortUrl = `${process.env.NEXT_PUBLIC_FRONT_END_UR}/${shortId}`
+      toast(`short url successfully generated ${shortUrl}`)
       form.reset()
     } catch (error) {
       console.log("Error posting url", error)

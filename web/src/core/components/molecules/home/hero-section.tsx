@@ -4,12 +4,14 @@ import { MainTag } from "@/components/atoms";
 import LinkShortenerField from "@/components/atoms/link-shortener-field";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
 import HistoryTable from "@/components/atoms/tables/history-table";
+import { UrlDocument } from "@/server/models/url";
 import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 
 interface HeroSectionProps {
   user: UserDocument | null;
+  // url: UrlDocument | null;
 }
 
 export function HeroSection({ user }: HeroSectionProps) {
