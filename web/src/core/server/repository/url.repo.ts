@@ -17,7 +17,7 @@ class URLRepo {
   async getAllUrlByUserId(userId: string) {
     try {
       return this.urlModel.find({ userId });
-    } catch (error) {
+    } catch {
       return null
     }
   }
