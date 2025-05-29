@@ -34,7 +34,6 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
       ...data,
       userId: user?.id,
     };
-    console.log("checking pay", payload);
     setLoading(true);
     try {
       const result = await Fetcher<ShortenResponse>("/shorten", {
