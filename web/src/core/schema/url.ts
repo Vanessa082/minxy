@@ -12,7 +12,9 @@ export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
 export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);
 
 export const urlShortenerRequestSchema = urlShortenerSchema.extend({
-  userId: z.string({ required_error: "id needed" }).nonempty()
-})
+  userId: z.string({ required_error: "id needed" }).nonempty(),
+});
 
-export type URLShortenerRequestSchema = z.infer<typeof urlShortenerRequestSchema>
+export type URLShortenerRequestSchema = z.infer<
+  typeof urlShortenerRequestSchema
+>;

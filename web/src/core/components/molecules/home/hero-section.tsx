@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { MainTag } from "@/components/atoms";
 import LinkShortenerField from "@/components/atoms/link-shortener-field";

@@ -40,23 +40,42 @@ export default function ResponsiveHistoryTable() {
         <table className="min-w-full">
           <thead>
             <tr className="bg-app-dark-300 text-app-white-500">
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Mini Link</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Original Link</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Clicks</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
-              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">Actions</th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Mini Link
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Original Link
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Clicks
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Status
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Date
+              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider">
+                Actions
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-app-dark-500">
             {data.map((item, index) => (
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal">
-                  <Link href={`${process.env.FRONT_END_UR}/${item.shortId}`} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">
+                  <Link
+                    href={`${process.env.FRONT_END_UR}/${item.shortId}`}
+                    className="text-blue-500 underline"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     {`${process.env.FRONT_END_UR}/${item.shortId}`}
                   </Link>
                 </td>
-                <td className="px-5 py-4 break-words whitespace-normal">{item.original}</td>
+                <td className="px-5 py-4 break-words whitespace-normal">
+                  {item.original}
+                </td>
                 <td className="px-5 py-4">{item.clicks}</td>
                 <td className="px-5 py-4">
                   <span className="inline-block px-3 py-1 text-xs font-semibold bg-app-blue-500 text-app-white-500 rounded-full">
@@ -65,13 +84,22 @@ export default function ResponsiveHistoryTable() {
                 </td>
                 <td className="px-5 py-4 text-xs">{item.createdAt}</td>
                 <td className="px-5 py-4 flex items-center gap-3">
-                  <button className="w-5 h-5 text-blue-500 hover:text-blue-700 focus:outline-none" title="Edit">
+                  <button
+                    className="w-5 h-5 text-blue-500 hover:text-blue-700 focus:outline-none"
+                    title="Edit"
+                  >
                     <PenIcon />
                   </button>
-                  <button className="w-5 h-5 text-red-700 hover:text-red-900 focus:outline-none" title="Delete">
+                  <button
+                    className="w-5 h-5 text-red-700 hover:text-red-900 focus:outline-none"
+                    title="Delete"
+                  >
                     <TrashIcon />
                   </button>
-                  <button className="w-5 h-5 text-gray-500 hover:text-gray-700 focus:outline-none" title="View">
+                  <button
+                    className="w-5 h-5 text-gray-500 hover:text-gray-700 focus:outline-none"
+                    title="View"
+                  >
                     <EyeIcon />
                   </button>
                 </td>
@@ -84,7 +112,10 @@ export default function ResponsiveHistoryTable() {
       {/* Mobile View */}
       <div className="xl:hidden">
         {data.map((item, index) => (
-          <div key={index} className="bg-strict-dark-300 p-4 mb-4 rounded-lg shadow">
+          <div
+            key={index}
+            className="bg-strict-dark-300 p-4 mb-4 rounded-lg shadow"
+          >
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
               <Link
@@ -98,7 +129,9 @@ export default function ResponsiveHistoryTable() {
             </div>
             <div className="mt-2">
               <span className="font-medium text-xs">Original Link:</span>
-              <p className="text-xs break-words whitespace-normal">{item.original}</p>
+              <p className="text-xs break-words whitespace-normal">
+                {item.original}
+              </p>
             </div>
             <div className="flex justify-between mt-2">
               <span className="font-medium text-xs">Clicks:</span>
@@ -113,13 +146,22 @@ export default function ResponsiveHistoryTable() {
               <span className="text-xs truncate">{item.createdAt}</span>
             </div>
             <div className="flex gap-2 mt-3">
-              <button className="w-5 h-5 text-blue-500 hover:text-blue-700" title="Edit">
+              <button
+                className="w-5 h-5 text-blue-500 hover:text-blue-700"
+                title="Edit"
+              >
                 <PenIcon />
               </button>
-              <button className="w-5 h-5 text-red-700 hover:text-red-900" title="Delete">
+              <button
+                className="w-5 h-5 text-red-700 hover:text-red-900"
+                title="Delete"
+              >
                 <TrashIcon />
               </button>
-              <button className="w-5 h-5 text-gray-500 hover:text-gray-700" title="View">
+              <button
+                className="w-5 h-5 text-gray-500 hover:text-gray-700"
+                title="View"
+              >
                 <EyeIcon />
               </button>
             </div>

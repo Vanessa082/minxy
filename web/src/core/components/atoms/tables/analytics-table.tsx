@@ -1,5 +1,4 @@
 export default function AnalyticsTable() {
-
   return (
     <table className="min-w-full bg-app-dark-400" role="table">
       <thead className="bg-app-dark-300 text-app-white-500">

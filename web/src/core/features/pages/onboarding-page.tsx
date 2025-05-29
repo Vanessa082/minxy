@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 import { Fetcher } from "@/lib/fetch";
 import { useRouter } from "next/navigation";
 
-export function OnboardingPage() {
+export default function OnboardingPage() {
   const { isLoaded, user } = useUser();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -37,11 +37,10 @@ export function OnboardingPage() {
         body: data,
       });
       router.push("/app");
-
     } catch (error) {
-      console.log("Error onboarding user", error)
+      console.log("Error onboarding user", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
