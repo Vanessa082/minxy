@@ -5,6 +5,7 @@ import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
+import { FRONT_END_URL } from "@/core/env";
 
 export default function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
@@ -65,12 +66,12 @@ export default function ResponsiveHistoryTable() {
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal">
                   <Link
-                    href={`${process.env.FRONT_END_UR}/${item.shortId}`}
+                    href={`${FRONT_END_URL}/${item.shortId}`}
                     className="text-blue-500 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {`${process.env.FRONT_END_UR}/${item.shortId}`}
+                    {`${FRONT_END_URL}/${item.shortId}`}
                   </Link>
                 </td>
                 <td className="px-5 py-4 break-words whitespace-normal">
