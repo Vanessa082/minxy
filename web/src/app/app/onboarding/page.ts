@@ -1,3 +1,4 @@
+import OnboardingPage from "@/features/pages/onboarding-page";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -5,4 +6,4 @@ export const metadata: Metadata = {
   description: "Minxy Onboarding page. Complete signup process",
 };
 
-export { OnboardingPage as default } from "@/features/pages/onboarding-page";
+export default OnboardingPage;
