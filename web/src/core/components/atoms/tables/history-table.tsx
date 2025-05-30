@@ -120,12 +120,12 @@ export default function ResponsiveHistoryTable() {
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
               <Link
-                href={`${process.env.FRONT_END_UR}/${item.shortId}`}
+                href={`${FRONT_END_URL}/${item.shortId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-blue-500 underline"
               >
-                {`${process.env.FRONT_END_UR}/${item.shortId}`}
+                {`${FRONT_END_URL}/${item.shortId}`}
               </Link>
             </div>
             <div className="mt-2">
