@@ -66,12 +66,12 @@ export default function ResponsiveHistoryTable() {
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal">
                   <Link
-                    href={`${environment.FRONT_END_URL}/${item.shortId}`}
+                    href={`${environment.frontEndUrl}/${item.shortId}`}
                     className="text-blue-500 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {`${environment.FRONT_END_URL}/${item.shortId}`}
+                    {`${environment.frontEndUrl}/${item.shortId}`}
                   </Link>
                 </td>
                 <td className="px-5 py-4 break-words whitespace-normal">
@@ -120,12 +120,12 @@ export default function ResponsiveHistoryTable() {
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
               <Link
-                href={`${environment.FRONT_END_URL}/${item.shortId}`}
+                href={`${environment.frontEndUrl}/${item.shortId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-blue-500 underline"
               >
-                {`${environment.FRONT_END_URL}/${item.shortId}`}
+                {`${environment.frontEndUrl}/${item.shortId}`}
               </Link>
             </div>
             <div className="mt-2">
