@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { environment } from "@/core/env";
 import {
   URLShortenerInputField,
   URLShortenerInputFieldResolver,
@@ -42,7 +43,9 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
       });
 
       const { shortId } = result.data;
-      const shortUrl = `${process.env.NEXT_PUBLIC_FRONT_END_UR}/${shortId}`;
+
+      const shortUrl = `${environment.frontEndUrl}/${shortId}`;
+
       toast(`short url successfully generated ${shortUrl}`);
       form.reset();
     } catch (error) {
@@ -51,6 +54,7 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
       setLoading(false);
     }
   };
+
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
