@@ -22,9 +22,9 @@ class URLRepo {
     }
   }
 
-  async getByShortId(shortId: string) {
+  async getByShortId(shortId: string): Promise<UrlDocument | null> {
     try {
-      return this.urlModel.findOne({ shortId }).lean();
+      return this.urlModel.findOne({ shortId }).lean() as unknown as UrlDocument;
     } catch {
       return null;
     }

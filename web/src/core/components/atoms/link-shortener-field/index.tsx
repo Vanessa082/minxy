@@ -2,13 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { environment } from "@/core/env";
 import {
   URLShortenerInputField,
   URLShortenerInputFieldResolver,
 } from "@/core/schema/url";
 import { WithCurrentUserComponentProps } from "@/features/providers/current-user";
 import { Fetcher } from "@/lib/fetch";
+import { getFullUrlFromShortId } from "@/lib/utils";
 import { LinkIcon, ScissorsIcon } from "lucide-react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -44,7 +44,7 @@ function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
 
       const { shortId } = result.data;
 
-      const shortUrl = `${environment.frontEndUrl}/${shortId}`;
+      const shortUrl = getFullUrlFromShortId(shortId);
 
       toast(`short url successfully generated ${shortUrl}`);
       form.reset();

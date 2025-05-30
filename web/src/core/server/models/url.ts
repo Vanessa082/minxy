@@ -40,6 +40,7 @@ const schemaDefinition = {
   },
   password: {
     type: String,
+    default: "",
   },
   deletedAt: {
     type: Date,
