@@ -1,3 +1,4 @@
+import { environment } from "@/core/env";
 import mongoose from "mongoose";
 
 const connectDB = async () => {
@@ -7,7 +8,7 @@ const connectDB = async () => {
   }
 
   try {
-    await mongoose.connect(process.env.MONGO_URI!);
+    await mongoose.connect(environment.mongoDbUrl!);
     console.log("\nDatabase connected successfully\n");
     return true;
   } catch (error) {

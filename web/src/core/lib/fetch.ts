@@ -1,9 +1,9 @@
 import { APIResponse } from "@/server/req-res";
+import { environment } from "../env";
 
 type Methods = "POST" | "GET" | "PUT";
 
-const BASE_URL =
-  process.env.FRONT_END_URL || process.env.NEXT_PUBLIC_FRONT_END_URL;
+const BASE_URL = environment.frontEndUrl;
 
 const buildUrl = (pathname: string, queries?: Record<string, string>) => {
   if (!BASE_URL) {
