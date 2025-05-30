@@ -2,8 +2,8 @@ import { connectDB } from "@/server/config/database";
 import { notFound, redirect } from "next/navigation";
 import { urlRepo } from "@/server/repository/url.repo";
 
-const minxyGoDaddy =
-  "https://www.godaddy.com/en-ie/domainsearch/find?domainToCheck=minxy.dev&tmskey=sem_godaddy_brand";
+// const minxyGoDaddy =
+//   "https://www.godaddy.com/en-ie/domainsearch/find?domainToCheck=minxy.dev&tmskey=sem_godaddy_brand";
 
 // export async function GET(req: NextRequest) {
 
