@@ -43,6 +43,7 @@ export async function POST(req: NextRequest) {
     userId,
     clicks: 0,
     status: UrlStatus.active,
+    password: '',
   });
 
   if (!newURL) {

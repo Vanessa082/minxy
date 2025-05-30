@@ -15,6 +15,7 @@ export function CurrentUserProvider<T = object>(
 ) {
   return async function Guard(props: ExcludeUser<T>) {
     const { userId } = await auth();
+
     const res = await Fetcher<UserDocument | null>("/auth/current-user", {
       queries: {
         clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
