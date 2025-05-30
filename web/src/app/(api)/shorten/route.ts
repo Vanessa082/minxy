@@ -1,4 +1,7 @@
-import { URLShortenerInputField, urlShortenerRequestSchema, } from "@/core/schema/url";
+import {
+  URLShortenerInputField,
+  urlShortenerRequestSchema,
+} from "@/core/schema/url";
 import { newPrefixedId, newShortId } from "@/lib/id";
 import { connectDB } from "@/server/config/database";
 import { UrlStatus } from "@/server/models/url";

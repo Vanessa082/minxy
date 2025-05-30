@@ -10,6 +10,14 @@ class URLRepo {
     try {
       return this.urlModel.create(data);
     } catch {
+      return [];
+    }
+  }
+
+  async getAllUrlByUserId(userId: string) {
+    try {
+      return this.urlModel.find({ userId });
+    } catch {
       return null;
     }
   }

@@ -1,3 +1,5 @@
+"use client";
+
 import { MainTag } from "@/components/atoms";
 import LinkShortenerField from "@/components/atoms/link-shortener-field";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
@@ -10,7 +12,7 @@ interface HeroSectionProps {
   user: UserDocument | null;
 }
 
-export function HeroSection({ } /* user */: HeroSectionProps) {
+export function HeroSection({ user }: HeroSectionProps) {
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <h1 className="text-app-blue-500 font-extrabold text-4xl">
@@ -23,7 +25,7 @@ export function HeroSection({ } /* user */: HeroSectionProps) {
       </p>
 
       <SignedIn>
-        <LinkShortenerField user={null} />
+        <LinkShortenerField user={user} />
         <HistoryTable />
       </SignedIn>
 

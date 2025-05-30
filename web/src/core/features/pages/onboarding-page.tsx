@@ -2,14 +2,13 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useForm } from "react-hook-form";
+import { FormProvider, useForm } from "react-hook-form";
 import {
   OnboardingPageForm,
   onboardingPageFormResolver,
@@ -19,28 +18,34 @@ import { useEffect, useState } from "react";
 import { LoaderCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Fetcher } from "@/lib/fetch";
+import { useRouter } from "next/navigation";
 
-export function OnboardingPage() {
+export default function OnboardingPage() {
   const { isLoaded, user } = useUser();
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const form = useForm<OnboardingPageForm>({
     resolver: onboardingPageFormResolver,
   });
 
   const onSubmit = async (data: OnboardingPageForm) => {
-    setLoading(true);
-    await Fetcher<OnboardingPageForm>("/auth/new-user", {
-      method: "POST",
-      body: data,
+    try {
+      setLoading(true);
+      await Fetcher<OnboardingPageForm>("/auth/new-user", {
+        method: "POST",
+        body: data,
+      });
+      router.push("/app");
+    } catch (error) {
+      console.log("Error onboarding user", error);
+    } finally {
+      setLoading(false);
     }
-    ).finally(() => setLoading(false));
   };
 
   useEffect(() => {
     if (isLoaded || user) {
-      console.log(user)
-
       form.reset({
         clerkId: user?.id || "",
         email: user?.primaryEmailAddress?.emailAddress || "",
@@ -65,7 +70,7 @@ export function OnboardingPage() {
         <p className="text-sm text-app-white-300 text-center mt-1">
           Welcome! Please fill in the details to complete sign up
         </p>
-        <Form {...form}>
+        <FormProvider {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
             className="space-y-4 mt-4"
@@ -127,7 +132,7 @@ export function OnboardingPage() {
               Continue
             </Button>
           </form>
-        </Form>
+        </FormProvider>
       </div>
     </div>
   );
