@@ -5,7 +5,7 @@ import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
-import { FRONT_END_URL } from "@/core/env";
+import { environment } from "@/core/env";
 
 export default function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
@@ -66,12 +66,12 @@ export default function ResponsiveHistoryTable() {
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal">
                   <Link
-                    href={`${FRONT_END_URL}/${item.shortId}`}
+                    href={`${environment.FRONT_END_URL}/${item.shortId}`}
                     className="text-blue-500 underline"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {`${FRONT_END_URL}/${item.shortId}`}
+                    {`${environment.FRONT_END_URL}/${item.shortId}`}
                   </Link>
                 </td>
                 <td className="px-5 py-4 break-words whitespace-normal">
@@ -120,12 +120,12 @@ export default function ResponsiveHistoryTable() {
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
               <Link
-                href={`${FRONT_END_URL}/${item.shortId}`}
+                href={`${environment.FRONT_END_URL}/${item.shortId}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs text-blue-500 underline"
               >
-                {`${FRONT_END_URL}/${item.shortId}`}
+                {`${environment.FRONT_END_URL}/${item.shortId}`}
               </Link>
             </div>
             <div className="mt-2">
