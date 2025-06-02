@@ -1,3 +1,4 @@
+import { URLShortenerDto, urlShortenerDtoSchema } from "@/core/schema/url";
 import { connectDB } from "@/server/config/database";
 import { UserDocument } from "@/server/models/user";
 import { urlRepo } from "@/server/repository/url.repo";
@@ -35,5 +36,15 @@ export async function GET() {
 
 export async function PATCH(req: NextRequest) {
   await connectDB();
-  const body = (await req.json()) as 
+  const body = (await req.json()) as URLShortenerDto;
+
+  const result = urlShortenerDtoSchema.parse(body);
+  if (!result) {
+    return newBadRequestApiResponse({
+      message: "Validation failed",
+      data: null,
+    });
+  }
+
+  // const updatedUrl = await urlRepo.updatedUrl()
 }
