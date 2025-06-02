@@ -7,6 +7,10 @@ export const urlShortenerSchema = z.object({
     .url({ message: "Invalid url" }),
 });
 
+const completeUrlShortenerSchema = z.object({
+
+})
+
 export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
 
 export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);

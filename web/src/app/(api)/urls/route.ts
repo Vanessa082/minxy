@@ -7,6 +7,7 @@ import {
   newSuccessApiResponse,
 } from "@/server/req-res";
 import { auth } from "@clerk/nextjs/server";
+import { NextRequest } from "next/server";
 
 export async function GET() {
   await connectDB();
@@ -27,7 +28,12 @@ export async function GET() {
 
   const urls = await urlRepo.getAllUrlByUserId(user.id);
   return newSuccessApiResponse({
-    message: "URL successfully posted",
+    message: "URL successfully gotten",
     data: urls,
   });
+}
+
+export async function PATCH(req: NextRequest) {
+  await connectDB();
+  const body = (await req.json()) as 
 }
