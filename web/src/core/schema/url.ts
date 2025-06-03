@@ -7,7 +7,20 @@ export const urlShortenerSchema = z.object({
     .url({ message: "Invalid url" }),
 });
 
+export const urlShortenerDtoSchema = z.object({
+  password: z
+    .string()
+    .min(8, { message: "Password has to be minimum 8 characters" })
+    .max(12, { message: "Password  is too long " })
+    .regex(/^(?=.*[A-Z].{8,})$/, {
+      message: "Password has to contain at least one uppercase letter",
+    }),
+  status: z.enum(["active", "inactive"]),
+});
+
 export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
+
+export type URLShortenerDto = z.infer<typeof urlShortenerDtoSchema>;
 
 export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);
 
