@@ -15,27 +15,18 @@ export function CurrentUserProvider<T = object>(
 ) {
   return async function Guard(props: ExcludeUser<T>) {
     const { userId } = await auth();
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
     const res = await Fetcher<UserDocument | null>("/auth/current-user", {
       queries: {
         clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
       },
     });
-=======
-=======
->>>>>>> Stashed changes
     try {
       const res = await Fetcher<UserDocument | null>("/auth/current-user", {
         queries: {
           clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
         },
       });
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 
       if (userId && !res.data) {
         // meaning user is signed up on clerk but not in our database
