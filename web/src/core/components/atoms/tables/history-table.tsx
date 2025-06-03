@@ -74,7 +74,7 @@ export default function ResponsiveHistoryTable() {
                     {getFullUrlFromShortId(item.shortId)}
                   </Link>
                 </td>
-                <td className="px-5 py-4 break-words whitespace-normal">
+                <td className="px-5 py-4 max-w-[250px] truncate whitespace-nowrap overflow-hidden">
                   {item.original}
                 </td>
                 <td className="px-5 py-4">{item.clicks}</td>

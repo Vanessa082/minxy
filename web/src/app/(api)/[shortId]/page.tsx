@@ -27,7 +27,7 @@ import { urlRepo } from "@/server/repository/url.repo";
 // }
 
 interface Props {
-  params: Promise<{ shortId: string }>
+  params: Promise<{ shortId: string }>;
 }
 
 export default async function Page(props: Props) {
@@ -44,7 +44,7 @@ export default async function Page(props: Props) {
   if (!url || !url.original) notFound();
 
   if (url.password) {
-    redirect('/url-gate-way?id=' + url.shortId);
+    redirect("/url-gate-way?id=" + url.shortId);
   }
 
   redirect(url.original);
