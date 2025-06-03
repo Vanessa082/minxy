@@ -15,42 +15,62 @@ export function CurrentUserProvider<T = object>(
 ) {
   return async function Guard(props: ExcludeUser<T>) {
     const { userId } = await auth();
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     const res = await Fetcher<UserDocument | null>("/auth/current-user", {
       queries: {
         clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
       },
     });
+=======
+=======
+>>>>>>> Stashed changes
+    try {
+      const res = await Fetcher<UserDocument | null>("/auth/current-user", {
+        queries: {
+          clerkId: userId || "", // for some reason invoking `auth()` from clerk in the server route doest give the clerk userId, but it does here
+        },
+      });
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 
-    if (userId && !res.data) {
-      // meaning user is signed up on clerk but not in our database
-      redirect("/app/onboarding");
+      if (userId && !res.data) {
+        // meaning user is signed up on clerk but not in our database
+        redirect("/app/onboarding");
+      }
+
+      let user: UserDocument | null = null;
+
+      if (res.data) {
+        user = {
+          id: res.data?.id,
+          clerkId: res.data?.clerkId,
+          name: res.data?.name,
+          email: res.data?.email,
+          createdAt: res.data?.createdAt,
+          updatedAt: res.data?.updatedAt,
+        };
+      }
+
+      if (typeof res === "string") {
+        // could come as 404 page which will be a string
+        return (
+          <div
+            dangerouslySetInnerHTML={{
+              __html: res,
+            }}
+          />
+        );
+      }
+
+      return <Component {...(props as T)} user={user} />;
+    } catch (error) {
+      console.error("🚨 Fetch Guard Error:", error);
+      // return fallback UI, redirect, or custom error component
+      return <div>We’re having trouble verifying you right now. Please try again in a minute.</div>;
     }
-
-    let user: UserDocument | null = null;
-
-    if (res.data) {
-      user = {
-        id: res.data?.id,
-        clerkId: res.data?.clerkId,
-        name: res.data?.name,
-        email: res.data?.email,
-        createdAt: res.data?.createdAt,
-        updatedAt: res.data?.updatedAt,
-      };
-    }
-
-    if (typeof res === "string") {
-      // could come as 404 page which will be a string
-      return (
-        <div
-          dangerouslySetInnerHTML={{
-            __html: res,
-          }}
-        />
-      );
-    }
-
-    return <Component {...(props as T)} user={user} />;
   };
 }

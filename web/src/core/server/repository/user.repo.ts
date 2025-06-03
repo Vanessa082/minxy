@@ -1,7 +1,7 @@
 import { UserModel, type UserDocument } from "../models/user";
 
 class UserRepo {
-  constructor(private readonly userModel: typeof UserModel) {}
+  constructor(private readonly userModel: typeof UserModel) { }
 
   async create(data: UserDocument) {
     try {
@@ -16,6 +16,14 @@ class UserRepo {
       return this.userModel.deleteOne({ id });
     } catch {
       return null;
+    }
+  }
+
+  async getByUserId(id: string) {
+    try {
+      return this.userModel.findOne({ id }).lean();
+    } catch {
+      return null
     }
   }
 
