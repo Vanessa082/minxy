@@ -10,4 +10,21 @@ export interface URLDTO {
   status: UrlStatus;
   password: string;
   deletedAt: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+export type URLUpdateDTO = Partial<Omit<URLDTO,
+  | "id"
+  | "userId"
+  | "name"
+  | "original"
+  | "shortId"
+  | "clicks"
+  | "status"
+  | "password"
+  | "deletedAt"
+  | "createdAt"
+  | "updatedAt"
+>
+>

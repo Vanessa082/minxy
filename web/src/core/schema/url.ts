@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
+import { string, z } from "zod";
 
 export const urlShortenerSchema = z.object({
   original: z
@@ -8,6 +8,7 @@ export const urlShortenerSchema = z.object({
 });
 
 export const urlShortenerDtoSchema = z.object({
+  name: string().min(4, { message: "Url name is required to be 4 characters and above" }),
   password: z
     .string()
     .min(8, { message: "Password has to be minimum 8 characters" })
