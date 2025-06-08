@@ -1,3 +1,4 @@
+import { UrlStatus } from "@/server/models/url";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { string, z } from "zod";
 
@@ -7,8 +8,19 @@ export const urlShortenerSchema = z.object({
     .url({ message: "Invalid url" }),
 });
 
-export const urlShortenerDtoSchema = z.object({
+export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
+
+export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);
+
+export const urlShortenerRequestSchema = urlShortenerSchema.extend({
+  userId: z.string({ required_error: "id needed" }).nonempty(),
+});
+
+export const completeUrlRequestSchema = urlShortenerSchema.extend({
   name: string().min(4, { message: "Url name is required to be 4 characters and above" }),
+  original: z
+    .string().url({ message: "Invalid url" }),
+  status: z.nativeEnum(UrlStatus),
   password: z
     .string()
     .min(8, { message: "Password has to be minimum 8 characters" })
@@ -16,18 +28,10 @@ export const urlShortenerDtoSchema = z.object({
     .regex(/^(?=.*[A-Z].{8,})$/, {
       message: "Password has to contain at least one uppercase letter",
     }),
-  status: z.enum(["active", "inactive"]),
-});
+  clicks: z.number().int().nonnegative().optional(),
+}).partial()
 
-export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
-
-export type URLShortenerDto = z.infer<typeof urlShortenerDtoSchema>;
-
-export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);
-
-export const urlShortenerRequestSchema = urlShortenerSchema.extend({
-  userId: z.string({ required_error: "id needed" }).nonempty(),
-});
+export type CompleteUrlRequestSchema = z.infer<typeof completeUrlRequestSchema>;
 
 export type URLShortenerRequestSchema = z.infer<
   typeof urlShortenerRequestSchema

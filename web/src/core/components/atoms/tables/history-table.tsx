@@ -1,11 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
+import { Copy, LockIcon, PenIcon, TrashIcon } from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
 import { getFullUrlFromShortId } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
@@ -32,6 +33,18 @@ export default function ResponsiveHistoryTable() {
 
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
+
+  const handleCopy = (shortId: string) => {
+    const fullUrl = getFullUrlFromShortId(shortId)
+    navigator.clipboard.writeText(fullUrl)
+      .then(() => {
+        toast(`Short URL successfully copied: ${fullUrl}`)
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL:", error);
+        toast.error("Failed to copy URL.");
+      })
+  }
 
   return (
     <div className="p-4 w-full">
@@ -64,7 +77,8 @@ export default function ResponsiveHistoryTable() {
           <tbody className="divide-y divide-app-dark-500">
             {data.map((item, index) => (
               <tr key={index}>
-                <td className="px-5 py-4 break-words whitespace-normal">
+                <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
+                  <LockIcon />
                   <Link
                     href={getFullUrlFromShortId(item.shortId)}
                     className="text-blue-500 underline"
@@ -73,6 +87,8 @@ export default function ResponsiveHistoryTable() {
                   >
                     {getFullUrlFromShortId(item.shortId)}
                   </Link>
+
+                  <Copy aria-label="copy url" className="cursor-copy" onClick={() => handleCopy(item.shortId)} />
                 </td>
                 <td className="px-5 py-4 max-w-[250px] truncate whitespace-nowrap overflow-hidden">
                   {item.original}
@@ -96,12 +112,6 @@ export default function ResponsiveHistoryTable() {
                     title="Delete"
                   >
                     <TrashIcon />
-                  </button>
-                  <button
-                    className="w-5 h-5 text-gray-500 hover:text-gray-700 focus:outline-none"
-                    title="View"
-                  >
-                    <EyeIcon />
                   </button>
                 </td>
               </tr>
@@ -127,6 +137,8 @@ export default function ResponsiveHistoryTable() {
               >
                 {getFullUrlFromShortId(item.shortId)}
               </Link>
+
+              <Copy aria-label="copy url" className="cursor-copy" onClick={() => handleCopy(item.shortId)} />
             </div>
             <div className="mt-2">
               <span className="font-medium text-xs">Original Link:</span>
@@ -158,12 +170,6 @@ export default function ResponsiveHistoryTable() {
                 title="Delete"
               >
                 <TrashIcon />
-              </button>
-              <button
-                className="w-5 h-5 text-gray-500 hover:text-gray-700"
-                title="View"
-              >
-                <EyeIcon />
               </button>
             </div>
           </div>

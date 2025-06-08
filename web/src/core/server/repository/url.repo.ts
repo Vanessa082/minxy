@@ -1,7 +1,7 @@
-import { URLDTO } from "../dto/url.dto";
+// import { URLDTO } from "../dto/url.dto";
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
-  constructor(private readonly urlModel: typeof UrlModel) {}
+  constructor(private readonly urlModel: typeof UrlModel) { }
 
   async findByOriginalAndUser(original: string, userId: string) {
     return this.urlModel.findOne({ original, userId });
@@ -15,16 +15,16 @@ class URLRepo {
     }
   }
 
-  async updateUrl(id: string, urldto: URLDTO) {
-    try {
-      return this.urlModel.findByIdAndUpdate(id, {
-        ...urldto,
-        updatedAt: new Date(),
-      });
-    } catch {
-      return [];
-    }
-  }
+  // async updateUrl(id: string, data: Partial<UrlDocument>) {
+  //   try {
+  //     return this.urlModel.findByIdAndUpdate(id, {
+  //       ...data,
+  //       updatedAt: new Date(),
+  //     });
+  //   } catch {
+  //     return [];
+  //   }
+  // }
 
   async getAllUrlByUserId(userId: string) {
     try {

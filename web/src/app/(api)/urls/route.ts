@@ -7,7 +7,6 @@ import {
   newSuccessApiResponse,
 } from "@/server/req-res";
 import { auth } from "@clerk/nextjs/server";
-import { NextRequest } from "next/server";
 
 export async function GET() {
   await connectDB();
