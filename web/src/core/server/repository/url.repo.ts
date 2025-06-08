@@ -1,4 +1,3 @@
-// import { URLDTO } from "../dto/url.dto";
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
   constructor(private readonly urlModel: typeof UrlModel) { }
@@ -15,16 +14,16 @@ class URLRepo {
     }
   }
 
-  // async updateUrl(id: string, data: Partial<UrlDocument>) {
-  //   try {
-  //     return this.urlModel.findByIdAndUpdate(id, {
-  //       ...data,
-  //       updatedAt: new Date(),
-  //     });
-  //   } catch {
-  //     return [];
-  //   }
-  // }
+  async updateUrl(id: string, data: Partial<UrlDocument>) {
+    try {
+      return this.urlModel.findByIdAndUpdate(id, {
+        ...data,
+        updatedAt: new Date(),
+      }, { new: true });
+    } catch {
+      return [];
+    }
+  }
 
   async getAllUrlByUserId(userId: string) {
     try {
@@ -37,7 +36,7 @@ class URLRepo {
   async getByShortId(shortId: string): Promise<UrlDocument | null> {
     try {
       return this.urlModel
-        .findOne({ shortId })
+        .findOneAndUpdate({ shortId }, { $inc: { clicks: 1 } }, { new: true })
         .lean() as unknown as UrlDocument;
     } catch {
       return null;

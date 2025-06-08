@@ -1,17 +1,19 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, LockIcon, PenIcon, TrashIcon } from "lucide-react";
+import { Copy, LockKeyhole, LockKeyholeOpen, PenIcon, TrashIcon } from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
 import { getFullUrlFromShortId } from "@/lib/utils";
 import { toast } from "sonner";
+import { AddPasswordToUrlModal } from "../modals/add-password-to-url-modal";
 
 export default function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [modalTarget, setModalTarget] = useState<{ id: string; hasPassword: boolean } | null>(null);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -31,6 +33,17 @@ export default function ResponsiveHistoryTable() {
     fetchUrls();
   }, []);
 
+  const toggleLock = async (item: ShortenResponse) => {
+    if (item.password) {
+      await Fetcher(`/urls/${item.id}`, { method: 'PATCH', body: { password: '' } });
+      toast("URL unlocked");
+      // load();
+    } else {
+      setModalTarget({ id: item.id, hasPassword: false });
+    }
+  };
+
+
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
 
@@ -49,6 +62,14 @@ export default function ResponsiveHistoryTable() {
   return (
     <div className="p-4 w-full">
       <h2 className="text-lg font-semibold">History</h2>
+      {modalTarget && (
+        <AddPasswordToUrlModal
+          id={modalTarget.id}
+          initialPassword={modalTarget.hasPassword}
+          onClose={() => setModalTarget(null)}
+        // onUpdated={load}
+        />
+      )}
       {/* Desktop View */}
       <div className="max-lg:hidden xl:block border border-app-dark-300 rounded-lg shadow">
         <table className="min-w-full">
@@ -78,7 +99,11 @@ export default function ResponsiveHistoryTable() {
             {data.map((item, index) => (
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
-                  <LockIcon />
+                  {item.password ? (
+                    <LockKeyhole onClick={e => { e.stopPropagation(); toggleLock(item); }} className="cursor-pointer" />
+                  ) : (
+                    <LockKeyholeOpen onClick={e => { e.stopPropagation(); toggleLock(item); }} className="cursor-pointer" />
+                  )}
                   <Link
                     href={getFullUrlFromShortId(item.shortId)}
                     className="text-blue-500 underline"

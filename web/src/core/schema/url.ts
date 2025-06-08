@@ -27,7 +27,7 @@ export const completeUrlRequestSchema = urlShortenerSchema.extend({
     .max(12, { message: "Password  is too long " })
     .regex(/^(?=.*[A-Z].{8,})$/, {
       message: "Password has to contain at least one uppercase letter",
-    }),
+    }).optional(),
   clicks: z.number().int().nonnegative().optional(),
 }).partial()
 
@@ -36,3 +36,5 @@ export type CompleteUrlRequestSchema = z.infer<typeof completeUrlRequestSchema>;
 export type URLShortenerRequestSchema = z.infer<
   typeof urlShortenerRequestSchema
 >;
+
+export const completeUrlRequestSchemaResolver = zodResolver(completeUrlRequestSchema);
