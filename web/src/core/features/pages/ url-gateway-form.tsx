@@ -14,27 +14,17 @@ interface Props {
 }
 
 export default function URLGateWayFormPage({ shortId }: Props) {
-  // Initialize the form inside the component
   const form = useForm<FormValues>({ defaultValues: { password: "" } });
 
-  // Handle submit: call verify endpoint with both shortId and password
   const onSubmit = form.handleSubmit(async (values) => {
     try {
       const response = await Fetcher<{ ok: boolean; redirectTo?: string; error?: string }>(
-        "/api/urls/verify-password",
+        "/urls/verify-password",
         {
           method: "POST",
           body: { shortId, password: values.password },
         }
       );
-
-      // if (response.ok && response.redirectTo) {
-      //   // Correct password — navigate to the original URL
-      //   window.location.href = response.redirectTo;
-      // } else {
-      //   // Incorrect password — show error
-      //   toast.error(response.error || "Wrong password, please try again");
-      // }
     } catch {
       toast.error("An unexpected error occurred");
     }
