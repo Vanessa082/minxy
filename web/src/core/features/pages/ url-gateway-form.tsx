@@ -18,7 +18,7 @@ export default function URLGateWayFormPage({ shortId }: Props) {
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
-      const response = await Fetcher<{ ok: boolean; redirectTo?: string; error?: string }>(
+      const response = await Fetcher<>(
         "/urls/verify-password",
         {
           method: "POST",
