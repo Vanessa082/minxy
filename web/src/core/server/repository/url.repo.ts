@@ -14,6 +14,17 @@ class URLRepo {
     }
   }
 
+  async updateUrl(id: string, data: Partial<UrlDocument>) {
+    try {
+      return this.urlModel.findByIdAndUpdate(id, {
+        ...data,
+        updatedAt: new Date(),
+      }, { new: true });
+    } catch {
+      return [];
+    }
+  }
+
   async getAllUrlByUserId(userId: string) {
     try {
       return this.urlModel.find({ userId });
@@ -24,7 +35,9 @@ class URLRepo {
 
   async getByShortId(shortId: string): Promise<UrlDocument | null> {
     try {
-      return this.urlModel.findOne({ shortId }).lean() as unknown as UrlDocument;
+      return this.urlModel
+        .findOneAndUpdate({ shortId }, { $inc: { clicks: 1 } }, { new: true })
+        .lean() as unknown as UrlDocument;
     } catch {
       return null;
     }

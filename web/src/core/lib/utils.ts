@@ -12,4 +12,8 @@ export const getProfileURLFromInitials = (name: string) => {
 
 export const getFullUrlFromShortId = (shortId: string) => {
   return environment.frontEndUrl + "/" + shortId;
+};
+
+export const getShortIdFromUrl = () => {
+
 }

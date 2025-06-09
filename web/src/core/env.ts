@@ -18,7 +18,8 @@
 // });
 
 export const environment = {
-  frontEndUrl: process.env.FRONT_END_URL || process.env.NEXT_PUBLIC_FRONT_END_URL,
+  frontEndUrl:
+    process.env.FRONT_END_URL || process.env.NEXT_PUBLIC_FRONT_END_URL,
   mongoDbUrl: process.env.MONGO_URI,
   isProduction: process.env.NODE_ENV === "production",
   clerk: {
@@ -28,7 +29,9 @@ export const environment = {
     clerkSecretKey: process.env.CLERK_SECRET_KEY,
     signInUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_URL,
     signUpUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_URL,
-    signInFallbackRedirectUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
-    signUpForceRedirectUrl: process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL,
-  }
-}
+    signInFallbackRedirectUrl:
+      process.env.NEXT_PUBLIC_CLERK_SIGN_IN_FALLBACK_REDIRECT_URL,
+    signUpForceRedirectUrl:
+      process.env.NEXT_PUBLIC_CLERK_SIGN_UP_FORCE_REDIRECT_URL,
+  },
+};

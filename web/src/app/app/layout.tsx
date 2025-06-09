@@ -79,9 +79,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider
-      publishableKey={environment.clerk.publishableKey}
-    >
+    <ClerkProvider publishableKey={environment.clerk.publishableKey}>
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
