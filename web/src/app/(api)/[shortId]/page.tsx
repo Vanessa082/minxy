@@ -7,7 +7,7 @@ import { urlRepo } from "@/server/repository/url.repo";
 
 // export async function GET(req: NextRequest) {
 
-//   const shortId = getShortIdFromUrl(req.url);
+// const shortId = getShortIdFromUrl(req.url);
 
 //   if (!shortId) {
 //     notFound();
