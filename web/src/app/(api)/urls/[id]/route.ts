@@ -4,8 +4,9 @@ import { urlRepo } from "@/server/repository/url.repo";
 import { newBadRequestApiResponse, newSuccessApiResponse } from "@/server/req-res";
 import { NextRequest } from "next/server";
 
-export async function PATCH(req: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
   await connectDB();
+  const { id } = await context.params;
   const body = (await req.json()) as CompleteUrlRequestSchema;
 
   const result = completeUrlRequestSchema.parse(body);
@@ -16,7 +17,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { id: string
     });
   }
 
-  const updatedUrl = await urlRepo.updateUrl(params.id, result);
+  const updatedUrl = await urlRepo.updateUrl(id, result);
 
   return newSuccessApiResponse({
     message: "URL successfully posted",

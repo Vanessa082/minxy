@@ -25,9 +25,10 @@ export const completeUrlRequestSchema = urlShortenerSchema.extend({
     .string()
     .min(8, { message: "Password has to be minimum 8 characters" })
     .max(12, { message: "Password  is too long " })
-    .regex(/^(?=.*[A-Z].{8,})$/, {
-      message: "Password has to contain at least one uppercase letter",
-    }).optional(),
+    .regex(/^(?=.*[A-Z]).{8,12}$/, {
+      message: "Password must contain at least one uppercase letter",
+    })
+    .optional(),
   clicks: z.number().int().nonnegative().optional(),
 }).partial()
 

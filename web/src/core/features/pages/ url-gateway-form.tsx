@@ -1,24 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { CompleteUrlRequestSchema, completeUrlRequestSchemaResolver } from "@/core/schema/url";
 import { Fetcher } from "@/lib/fetch";
 import { FormProvider, useForm } from "react-hook-form";
 import { toast } from "sonner";
-
-interface FormValues {
-  password: string;
-}
-
 interface Props {
   shortId: string;
 }
 
 export default function URLGateWayFormPage({ shortId }: Props) {
-  const form = useForm<FormValues>({ defaultValues: { password: "" } });
+  const form = useForm<CompleteUrlRequestSchema>({
+    resolver: completeUrlRequestSchemaResolver
+  });
 
   const onSubmit = form.handleSubmit(async (values) => {
     try {
-      const response = await Fetcher<>(
+      await Fetcher<CompleteUrlRequestSchema>(
         "/urls/verify-password",
         {
           method: "POST",
