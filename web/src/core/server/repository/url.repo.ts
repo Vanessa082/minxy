@@ -16,7 +16,7 @@ class URLRepo {
 
   async updateUrl(id: string, data: Partial<UrlDocument>) {
     try {
-      return this.urlModel.findByIdAndUpdate(id, {
+      return this.urlModel.findOneAndUpdate({ id }, {
         ...data,
         updatedAt: new Date(),
       }, { new: true });
