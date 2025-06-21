@@ -42,7 +42,7 @@ export const completeUrlRequestSchemaResolver = zodResolver(completeUrlRequestSc
 
 export const verifyUrlSchema = z.object({
   shortId: z.string().nonempty(),
-  password: z.string().min(1),
+  password: z.string().min(1, { message: "Password is required" }),
   original: z
     .string().url({ message: "Invalid url" }),
 });
@@ -50,8 +50,9 @@ export const verifyUrlSchema = z.object({
 export type VerifyUrlInput = z.infer<typeof verifyUrlSchema>;
 export const verifyUrlResolver = zodResolver(verifyUrlSchema);
 
-export const verifyShortIdSchema = z.object({
-  shortId: z.string().nonempty()
-})
+export const verifyPasswordSchema = z.object({
+  password: z.string().min(1, { message: "Password is required" }),
+});
+export type VerifyPasswordInput = z.infer<typeof verifyPasswordSchema>;
+export const verifyPasswordResolver = zodResolver(verifyPasswordSchema);
 
-export type VerifyShortIdSchema = z.infer<typeof verifyShortIdSchema>;

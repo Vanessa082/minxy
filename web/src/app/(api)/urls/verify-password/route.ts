@@ -28,6 +28,6 @@ export async function POST(req: NextRequest) {
 
   return newSuccessApiResponse({
     message: "Password is correct",
-    data: url
+    data: { original: url.original }
   })
 }
