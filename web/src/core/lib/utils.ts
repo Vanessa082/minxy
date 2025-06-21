@@ -14,6 +14,4 @@ export const getFullUrlFromShortId = (shortId: string) => {
   return environment.frontEndUrl + "/" + shortId;
 };
 
-export const getShortIdFromUrl = () => {
-
-}
+export const getShortIdFromUrl = () => {};

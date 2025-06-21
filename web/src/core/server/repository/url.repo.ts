@@ -1,6 +1,6 @@
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
-  constructor(private readonly urlModel: typeof UrlModel) { }
+  constructor(private readonly urlModel: typeof UrlModel) {}
 
   async findByOriginalAndUser(original: string, userId: string) {
     return this.urlModel.findOne({ original, userId });
@@ -16,10 +16,14 @@ class URLRepo {
 
   async updateUrl(id: string, data: Partial<UrlDocument>) {
     try {
-      return this.urlModel.findOneAndUpdate({ id }, {
-        ...data,
-        updatedAt: new Date(),
-      }, { new: true });
+      return this.urlModel.findOneAndUpdate(
+        { id },
+        {
+          ...data,
+          updatedAt: new Date(),
+        },
+        { new: true },
+      );
     } catch {
       return [];
     }

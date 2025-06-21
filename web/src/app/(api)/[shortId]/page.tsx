@@ -44,7 +44,7 @@ export default async function Page(props: paramsProps) {
   if (!url || !url.original) notFound();
 
   if (url.password) {
-    const shortId = url.shortId
+    const shortId = url.shortId;
     redirect(`/app/url-gate-way/${shortId}`);
   }
 

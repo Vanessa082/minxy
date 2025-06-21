@@ -1,7 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, LockKeyhole, LockKeyholeOpen, PenIcon, TrashIcon } from "lucide-react";
+import {
+  Copy,
+  LockKeyhole,
+  LockKeyholeOpen,
+  PenIcon,
+  TrashIcon,
+} from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
@@ -13,7 +19,10 @@ export default function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [modalTarget, setModalTarget] = useState<{ id: string; hasPassword: boolean } | null>(null);
+  const [modalTarget, setModalTarget] = useState<{
+    id: string;
+    hasPassword: boolean;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -35,7 +44,10 @@ export default function ResponsiveHistoryTable() {
 
   const toggleLock = async (item: ShortenResponse) => {
     if (item.password) {
-      await Fetcher(`/urls/${item.id}`, { method: 'PATCH', body: { password: '' } });
+      await Fetcher(`/urls/${item.id}`, {
+        method: "PATCH",
+        body: { password: "" },
+      });
       toast("URL unlocked");
       // load();
     } else {
@@ -43,21 +55,21 @@ export default function ResponsiveHistoryTable() {
     }
   };
 
-
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
 
   const handleCopy = (shortId: string) => {
-    const fullUrl = getFullUrlFromShortId(shortId)
-    navigator.clipboard.writeText(fullUrl)
+    const fullUrl = getFullUrlFromShortId(shortId);
+    navigator.clipboard
+      .writeText(fullUrl)
       .then(() => {
-        toast(`Short URL successfully copied: ${fullUrl}`)
+        toast(`Short URL successfully copied: ${fullUrl}`);
       })
       .catch((error) => {
         console.error("Failed to copy URL:", error);
         toast.error("Failed to copy URL.");
-      })
-  }
+      });
+  };
 
   return (
     <div className="p-4 w-full">
@@ -67,7 +79,7 @@ export default function ResponsiveHistoryTable() {
           id={modalTarget.id}
           initialPassword={modalTarget.hasPassword}
           onClose={() => setModalTarget(null)}
-        // onUpdated={load}
+          // onUpdated={load}
         />
       )}
       {/* Desktop View */}
@@ -100,9 +112,21 @@ export default function ResponsiveHistoryTable() {
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
                   {item.password ? (
-                    <LockKeyhole onClick={e => { e.stopPropagation(); toggleLock(item); }} className="cursor-pointer" />
+                    <LockKeyhole
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLock(item);
+                      }}
+                      className="cursor-pointer"
+                    />
                   ) : (
-                    <LockKeyholeOpen onClick={e => { e.stopPropagation(); toggleLock(item); }} className="cursor-pointer" />
+                    <LockKeyholeOpen
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleLock(item);
+                      }}
+                      className="cursor-pointer"
+                    />
                   )}
                   <Link
                     href={getFullUrlFromShortId(item.shortId)}
@@ -113,7 +137,11 @@ export default function ResponsiveHistoryTable() {
                     {getFullUrlFromShortId(item.shortId)}
                   </Link>
 
-                  <Copy aria-label="copy url" className="cursor-copy" onClick={() => handleCopy(item.shortId)} />
+                  <Copy
+                    aria-label="copy url"
+                    className="cursor-copy"
+                    onClick={() => handleCopy(item.shortId)}
+                  />
                 </td>
                 <td className="px-5 py-4 max-w-[250px] truncate whitespace-nowrap overflow-hidden">
                   {item.original}
@@ -163,7 +191,11 @@ export default function ResponsiveHistoryTable() {
                 {getFullUrlFromShortId(item.shortId)}
               </Link>
 
-              <Copy aria-label="copy url" className="cursor-copy" onClick={() => handleCopy(item.shortId)} />
+              <Copy
+                aria-label="copy url"
+                className="cursor-copy"
+                onClick={() => handleCopy(item.shortId)}
+              />
             </div>
             <div className="mt-2">
               <span className="font-medium text-xs">Original Link:</span>

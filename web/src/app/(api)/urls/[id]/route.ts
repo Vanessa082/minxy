@@ -1,11 +1,20 @@
-import { completeUrlRequestSchema, CompleteUrlRequestSchema } from "@/core/schema/url";
+import {
+  completeUrlRequestSchema,
+  CompleteUrlRequestSchema,
+} from "@/core/schema/url";
 import { connectDB } from "@/server/config/database";
 import { urlRepo } from "@/server/repository/url.repo";
-import { newBadRequestApiResponse, newSuccessApiResponse } from "@/server/req-res";
+import {
+  newBadRequestApiResponse,
+  newSuccessApiResponse,
+} from "@/server/req-res";
 import { genSaltSync, hashSync } from "bcrypt";
 import { NextRequest } from "next/server";
 
-export async function PATCH(req: NextRequest, context: { params: Promise<{ id: string }> }) {
+export async function PATCH(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> },
+) {
   await connectDB();
   const { id } = await context.params;
   const body = (await req.json()) as CompleteUrlRequestSchema;
@@ -29,7 +38,7 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
 
   if (result.password) {
     const salt = genSaltSync(12);
-    result.password = hashSync(result.password, salt)
+    result.password = hashSync(result.password, salt);
   }
 
   const updatedUrl = await urlRepo.updateUrl(id, result);
@@ -38,4 +47,4 @@ export async function PATCH(req: NextRequest, context: { params: Promise<{ id: s
     message: "URL successfully posted",
     data: updatedUrl,
   });
-};
+}

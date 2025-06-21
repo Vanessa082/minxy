@@ -69,5 +69,3 @@ export const UrlModel = mongoose.models?.URL || model("URL", urlSchema);
 export type UrlDocument = BaseDocumentRead<
   InferRawDocType<typeof schemaDefinition>
 >;
-
-
