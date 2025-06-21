@@ -12,12 +12,17 @@ export type URLShortenerInputField = z.infer<typeof urlShortenerSchema>;
 
 export const URLShortenerInputFieldResolver = zodResolver(urlShortenerSchema);
 
+export type URLShortenerRequestSchema = z.infer<
+  typeof urlShortenerRequestSchema
+>;
+
 export const urlShortenerRequestSchema = urlShortenerSchema.extend({
   userId: z.string({ required_error: "id needed" }).nonempty(),
 });
 
 export const completeUrlRequestSchema = urlShortenerSchema.extend({
   name: string().min(4, { message: "Url name is required to be 4 characters and above" }),
+  shortId: z.string({ required_error: "shortId is required" }).nonempty(),
   original: z
     .string().url({ message: "Invalid url" }),
   status: z.nativeEnum(UrlStatus),
@@ -33,9 +38,20 @@ export const completeUrlRequestSchema = urlShortenerSchema.extend({
 }).partial()
 
 export type CompleteUrlRequestSchema = z.infer<typeof completeUrlRequestSchema>;
-
-export type URLShortenerRequestSchema = z.infer<
-  typeof urlShortenerRequestSchema
->;
-
 export const completeUrlRequestSchemaResolver = zodResolver(completeUrlRequestSchema);
+
+export const verifyUrlSchema = z.object({
+  shortId: z.string().nonempty(),
+  password: z.string().min(1),
+  original: z
+    .string().url({ message: "Invalid url" }),
+});
+
+export type VerifyUrlInput = z.infer<typeof verifyUrlSchema>;
+export const verifyUrlResolver = zodResolver(verifyUrlSchema);
+
+export const verifyShortIdSchema = z.object({
+  shortId: z.string().nonempty()
+})
+
+export type VerifyShortIdSchema = z.infer<typeof verifyShortIdSchema>;

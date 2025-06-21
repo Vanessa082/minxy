@@ -26,11 +26,11 @@ import { urlRepo } from "@/server/repository/url.repo";
 //   return Response.redirect(url.original);
 // }
 
-interface Props {
+export interface paramsProps {
   params: Promise<{ shortId: string }>;
 }
 
-export default async function Page(props: Props) {
+export default async function Page(props: paramsProps) {
   const { shortId } = await props.params;
 
   if (!shortId) {
