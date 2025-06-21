@@ -7,7 +7,7 @@ import { urlRepo } from "@/server/repository/url.repo";
 
 // export async function GET(req: NextRequest) {
 
-//   const shortId = getShortIdFromUrl(req.url);
+// const shortId = getShortIdFromUrl(req.url);
 
 //   if (!shortId) {
 //     notFound();
@@ -26,11 +26,11 @@ import { urlRepo } from "@/server/repository/url.repo";
 //   return Response.redirect(url.original);
 // }
 
-interface Props {
-  params: Promise<{ shortId: string }>
+export interface paramsProps {
+  params: Promise<{ shortId: string }>;
 }
 
-export default async function Page(props: Props) {
+export default async function Page(props: paramsProps) {
   const { shortId } = await props.params;
 
   if (!shortId) {
@@ -44,7 +44,8 @@ export default async function Page(props: Props) {
   if (!url || !url.original) notFound();
 
   if (url.password) {
-    redirect('/url-gate-way?id=' + url.shortId);
+    const shortId = url.shortId;
+    redirect(`/app/url-gate-way/${shortId}`);
   }
 
   redirect(url.original);

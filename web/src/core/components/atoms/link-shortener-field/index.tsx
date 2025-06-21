@@ -20,6 +20,7 @@ export interface ShortenResponse {
   userId: string;
   clicks: number;
   status: string;
+  password: string;
   createdAt: string;
   updatedAt: string;
 }

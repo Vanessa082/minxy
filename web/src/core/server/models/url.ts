@@ -64,7 +64,7 @@ const urlSchema = new Schema(schemaDefinition, {
   },
 });
 
-export const UrlModel = mongoose.models.URL || model("URL", urlSchema);
+export const UrlModel = mongoose.models?.URL || model("URL", urlSchema);
 
 export type UrlDocument = BaseDocumentRead<
   InferRawDocType<typeof schemaDefinition>
