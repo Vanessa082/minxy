@@ -1,6 +1,6 @@
 import { UrlStatus } from "@/server/models/url";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { string, z } from "zod";
+import { z } from "zod";
 
 export const urlShortenerSchema = z.object({
   original: z
@@ -22,7 +22,7 @@ export const urlShortenerRequestSchema = urlShortenerSchema.extend({
 
 export const completeUrlRequestSchema = urlShortenerSchema
   .extend({
-    name: string().min(4, {
+    name: z.string().min(4, {
       message: "Url name is required to be 4 characters and above",
     }),
     shortId: z.string({ required_error: "shortId is required" }).nonempty(),
