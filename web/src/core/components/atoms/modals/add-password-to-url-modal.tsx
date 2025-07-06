@@ -21,10 +21,7 @@ interface AddPasswordToUrlModalProps {
   onClose: () => void;
 }
 
-const AddPasswordToUrlModal = ({
-  id,
-  onClose,
-}: AddPasswordToUrlModalProps) => {
+const AddPasswordToUrlModal = ({ id, onClose }: AddPasswordToUrlModalProps) => {
   const form = useForm<CompleteUrlRequestSchema>({
     resolver: completeUrlRequestSchemaResolver,
     defaultValues: { password: "" },

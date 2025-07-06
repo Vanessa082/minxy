@@ -15,7 +15,7 @@ import { getFullUrlFromShortId } from "@/lib/utils";
 import { toast } from "sonner";
 import { AddPasswordToUrlModal } from "../modals/add-password-to-url-modal";
 
-export default function ResponsiveHistoryTable() {
+export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -79,7 +79,7 @@ export default function ResponsiveHistoryTable() {
           id={modalTarget.id}
           initialPassword={modalTarget.hasPassword}
           onClose={() => setModalTarget(null)}
-        // onUpdated={load}
+          // onUpdated={load}
         />
       )}
       {/* Desktop View */}
@@ -113,16 +113,14 @@ export default function ResponsiveHistoryTable() {
                 <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
                   {item.isLocked ? (
                     <LockKeyhole
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         toggleLock(item);
                       }}
                       className="cursor-pointer"
                     />
                   ) : (
                     <LockKeyholeOpen
-                      onClick={(e) => {
-                        e.stopPropagation();
+                      onClick={() => {
                         toggleLock(item);
                       }}
                       className="cursor-pointer"
@@ -182,6 +180,21 @@ export default function ResponsiveHistoryTable() {
           >
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
+              {item.isLocked ? (
+                <LockKeyhole
+                  onClick={() => {
+                    toggleLock(item);
+                  }}
+                  className="cursor-pointer"
+                />
+              ) : (
+                <LockKeyholeOpen
+                  onClick={() => {
+                    toggleLock(item);
+                  }}
+                  className="cursor-pointer"
+                />
+              )}
               <Link
                 href={getFullUrlFromShortId(item.shortId)}
                 target="_blank"

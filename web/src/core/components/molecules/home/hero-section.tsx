@@ -3,7 +3,7 @@
 import { MainTag } from "@/components/atoms";
 import LinkShortenerField from "@/components/atoms/link-shortener-field";
 import AnalyticsTable from "@/components/atoms/tables/analytics-table";
-import HistoryTable from "@/components/atoms/tables/history-table";
+import { ResponsiveHistoryTable } from "@/components/atoms/tables/history-table";
 import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
@@ -26,7 +26,7 @@ export function HeroSection({ user }: HeroSectionProps) {
 
       <SignedIn>
         <LinkShortenerField user={user} />
-        <HistoryTable />
+        <ResponsiveHistoryTable />
       </SignedIn>
 
       <SignedOut>

@@ -17,7 +17,7 @@ interface Props {
   shortId: string;
 }
 
-export default function URLGateWayFormPage({ shortId }: Props) {
+export function URLGateWayFormPage({ shortId }: Props) {
   const router = useRouter();
 
   const form = useForm<VerifyPasswordInput>({

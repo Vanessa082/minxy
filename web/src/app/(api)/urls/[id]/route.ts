@@ -15,11 +15,12 @@ export async function PATCH(
   req: NextRequest,
   context: { params: Promise<{ id: string }> },
 ) {
-  await connectDB();
   const { id } = await context.params;
   const body = (await req.json()) as CompleteUrlRequestSchema;
 
-  if (body.password === "") {
+  await connectDB();
+
+  if (!body.password?.trim()) {
     const updatedUrl = await urlRepo.updateUrl(id, { password: "" });
     return newSuccessApiResponse({
       message: "URL unlocked",
@@ -44,7 +45,7 @@ export async function PATCH(
   const updatedUrl = await urlRepo.updateUrl(id, result);
 
   return newSuccessApiResponse({
-    message: "URL successfully posted",
+    message: "URL successfully updated",
     data: updatedUrl,
   });
 }

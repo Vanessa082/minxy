@@ -15,7 +15,7 @@ export async function GET(req: Request) {
 
   if (!clerkId) {
     return newNotFoundApiResponse({
-      message: "ClerkUser not found",
+      message: "User not found",
       data: null,
     });
   }
