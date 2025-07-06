@@ -43,7 +43,7 @@ export default function ResponsiveHistoryTable() {
   }, []);
 
   const toggleLock = async (item: ShortenResponse) => {
-    if (item.password) {
+    if (item.isLocked) {
       await Fetcher(`/urls/${item.id}`, {
         method: "PATCH",
         body: { password: "" },
@@ -79,7 +79,7 @@ export default function ResponsiveHistoryTable() {
           id={modalTarget.id}
           initialPassword={modalTarget.hasPassword}
           onClose={() => setModalTarget(null)}
-          // onUpdated={load}
+        // onUpdated={load}
         />
       )}
       {/* Desktop View */}
@@ -111,7 +111,7 @@ export default function ResponsiveHistoryTable() {
             {data.map((item, index) => (
               <tr key={index}>
                 <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
-                  {item.password ? (
+                  {item.isLocked ? (
                     <LockKeyhole
                       onClick={(e) => {
                         e.stopPropagation();

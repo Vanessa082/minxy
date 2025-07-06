@@ -1,6 +1,6 @@
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
-  constructor(private readonly urlModel: typeof UrlModel) {}
+  constructor(private readonly urlModel: typeof UrlModel) { }
 
   async findByOriginalAndUser(original: string, userId: string) {
     return this.urlModel.findOne({ original, userId });
@@ -31,7 +31,11 @@ class URLRepo {
 
   async getAllUrlByUserId(userId: string) {
     try {
-      return this.urlModel.find({ userId });
+      const result = await this.urlModel.find({ userId }).lean();
+      return result.map(({ password, ...rest }) => ({
+        ...rest,
+        isLocked: Boolean(password),
+      }));
     } catch {
       return null;
     }
