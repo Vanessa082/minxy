@@ -56,7 +56,7 @@ const userSchema = new Schema(schemaDefinition, {
  *
  * @see https://stackoverflow.com/a/43761258/21746512 on stack overflow
  */
-export const UserModel = mongoose.models.User || model("User", userSchema);
+export const UserModel = mongoose.models?.User || model("User", userSchema);
 
 export type UserDocument = BaseDocumentRead<
   InferRawDocType<typeof schemaDefinition>

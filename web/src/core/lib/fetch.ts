@@ -1,7 +1,7 @@
 import { APIResponse } from "@/server/req-res";
 import { environment } from "../env";
 
-type Methods = "POST" | "GET" | "PUT";
+type Methods = "POST" | "GET" | "PUT" | "PATCH";
 
 const BASE_URL = environment.frontEndUrl;
 

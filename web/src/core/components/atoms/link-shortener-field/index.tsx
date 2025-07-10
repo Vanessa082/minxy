@@ -20,6 +20,7 @@ export interface ShortenResponse {
   userId: string;
   clicks: number;
   status: string;
+  isLocked: boolean;
   createdAt: string;
   updatedAt: string;
 }

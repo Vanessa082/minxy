@@ -1,16 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { EyeIcon, PenIcon, TrashIcon } from "lucide-react";
+import {
+  Copy,
+  LockKeyhole,
+  LockKeyholeOpen,
+  PenIcon,
+  TrashIcon,
+} from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";
 import { getFullUrlFromShortId } from "@/lib/utils";
+import { toast } from "sonner";
+import { AddPasswordToUrlModal } from "../modals/add-password-to-url-modal";
 
-export default function ResponsiveHistoryTable() {
+export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [modalTarget, setModalTarget] = useState<{
+    id: string;
+    hasPassword: boolean;
+  } | null>(null);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -30,12 +42,46 @@ export default function ResponsiveHistoryTable() {
     fetchUrls();
   }, []);
 
+  const toggleLock = async (item: ShortenResponse) => {
+    if (item.isLocked) {
+      await Fetcher(`/urls/${item.id}`, {
+        method: "PATCH",
+        body: { password: "" },
+      });
+      toast("URL unlocked");
+      // load();
+    } else {
+      setModalTarget({ id: item.id, hasPassword: false });
+    }
+  };
+
   if (loading) return <p className="p-4">Loading...</p>;
   if (error) return <p className="p-4 text-red-500">{error}</p>;
+
+  const handleCopy = (shortId: string) => {
+    const fullUrl = getFullUrlFromShortId(shortId);
+    navigator.clipboard
+      .writeText(fullUrl)
+      .then(() => {
+        toast(`Short URL successfully copied: ${fullUrl}`);
+      })
+      .catch((error) => {
+        console.error("Failed to copy URL:", error);
+        toast.error("Failed to copy URL.");
+      });
+  };
 
   return (
     <div className="p-4 w-full">
       <h2 className="text-lg font-semibold">History</h2>
+      {modalTarget && (
+        <AddPasswordToUrlModal
+          id={modalTarget.id}
+          initialPassword={modalTarget.hasPassword}
+          onClose={() => setModalTarget(null)}
+          // onUpdated={load}
+        />
+      )}
       {/* Desktop View */}
       <div className="max-lg:hidden xl:block border border-app-dark-300 rounded-lg shadow">
         <table className="min-w-full">
@@ -64,7 +110,22 @@ export default function ResponsiveHistoryTable() {
           <tbody className="divide-y divide-app-dark-500">
             {data.map((item, index) => (
               <tr key={index}>
-                <td className="px-5 py-4 break-words whitespace-normal">
+                <td className="px-5 py-4 break-words whitespace-normal flex justify-between items-center">
+                  {item.isLocked ? (
+                    <LockKeyhole
+                      onClick={() => {
+                        toggleLock(item);
+                      }}
+                      className="cursor-pointer"
+                    />
+                  ) : (
+                    <LockKeyholeOpen
+                      onClick={() => {
+                        toggleLock(item);
+                      }}
+                      className="cursor-pointer"
+                    />
+                  )}
                   <Link
                     href={getFullUrlFromShortId(item.shortId)}
                     className="text-blue-500 underline"
@@ -73,8 +134,14 @@ export default function ResponsiveHistoryTable() {
                   >
                     {getFullUrlFromShortId(item.shortId)}
                   </Link>
+
+                  <Copy
+                    aria-label="copy url"
+                    className="cursor-copy"
+                    onClick={() => handleCopy(item.shortId)}
+                  />
                 </td>
-                <td className="px-5 py-4 break-words whitespace-normal">
+                <td className="px-5 py-4 max-w-[250px] truncate whitespace-nowrap overflow-hidden">
                   {item.original}
                 </td>
                 <td className="px-5 py-4">{item.clicks}</td>
@@ -97,12 +164,6 @@ export default function ResponsiveHistoryTable() {
                   >
                     <TrashIcon />
                   </button>
-                  <button
-                    className="w-5 h-5 text-gray-500 hover:text-gray-700 focus:outline-none"
-                    title="View"
-                  >
-                    <EyeIcon />
-                  </button>
                 </td>
               </tr>
             ))}
@@ -119,6 +180,21 @@ export default function ResponsiveHistoryTable() {
           >
             <div className="flex justify-between items-center">
               <span className="font-medium text-xs">Mini Link:</span>
+              {item.isLocked ? (
+                <LockKeyhole
+                  onClick={() => {
+                    toggleLock(item);
+                  }}
+                  className="cursor-pointer"
+                />
+              ) : (
+                <LockKeyholeOpen
+                  onClick={() => {
+                    toggleLock(item);
+                  }}
+                  className="cursor-pointer"
+                />
+              )}
               <Link
                 href={getFullUrlFromShortId(item.shortId)}
                 target="_blank"
@@ -127,6 +203,12 @@ export default function ResponsiveHistoryTable() {
               >
                 {getFullUrlFromShortId(item.shortId)}
               </Link>
+
+              <Copy
+                aria-label="copy url"
+                className="cursor-copy"
+                onClick={() => handleCopy(item.shortId)}
+              />
             </div>
             <div className="mt-2">
               <span className="font-medium text-xs">Original Link:</span>
@@ -158,12 +240,6 @@ export default function ResponsiveHistoryTable() {
                 title="Delete"
               >
                 <TrashIcon />
-              </button>
-              <button
-                className="w-5 h-5 text-gray-500 hover:text-gray-700"
-                title="View"
-              >
-                <EyeIcon />
               </button>
             </div>
           </div>

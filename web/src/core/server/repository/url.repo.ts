@@ -1,6 +1,6 @@
 import { UrlModel, type UrlDocument } from "../models/url";
 class URLRepo {
-  constructor(private readonly urlModel: typeof UrlModel) { }
+  constructor(private readonly urlModel: typeof UrlModel) {}
 
   async findByOriginalAndUser(original: string, userId: string) {
     return this.urlModel.findOne({ original, userId });
@@ -14,9 +14,28 @@ class URLRepo {
     }
   }
 
+  async updateUrl(id: string, data: Partial<UrlDocument>) {
+    try {
+      return this.urlModel.findOneAndUpdate(
+        { id },
+        {
+          ...data,
+          updatedAt: new Date(),
+        },
+        { new: true },
+      );
+    } catch {
+      return [];
+    }
+  }
+
   async getAllUrlByUserId(userId: string) {
     try {
-      return this.urlModel.find({ userId });
+      const result = await this.urlModel.find({ userId }).lean();
+      return result.map(({ password, ...rest }) => ({
+        ...rest,
+        isLocked: Boolean(password),
+      }));
     } catch {
       return null;
     }
@@ -24,7 +43,9 @@ class URLRepo {
 
   async getByShortId(shortId: string): Promise<UrlDocument | null> {
     try {
-      return this.urlModel.findOne({ shortId }).lean() as unknown as UrlDocument;
+      return this.urlModel
+        .findOneAndUpdate({ shortId }, { $inc: { clicks: 1 } }, { new: true })
+        .lean() as unknown as UrlDocument;
     } catch {
       return null;
     }
