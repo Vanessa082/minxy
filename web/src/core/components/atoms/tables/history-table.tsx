@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Copy, LockKeyhole, LockKeyholeOpen, MoreHorizontal, MoreVerticalIcon, PenIcon, QrCodeIcon, TrashIcon } from "lucide-react";
+import { Copy, LockKeyhole, LockKeyholeOpen, MoreHorizontal, PenIcon, QrCodeIcon, TrashIcon } from "lucide-react";
 import { ShortenResponse } from "../link-shortener-field";
 import { Fetcher } from "@/lib/fetch";
 import Link from "next/link";

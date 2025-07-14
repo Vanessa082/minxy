@@ -6,6 +6,7 @@ import { ResponsiveHistoryTable } from "@/components/atoms/tables/history-table"
 import type { UserDocument } from "@/server/models/user";
 import { SignedIn, SignedOut } from "@clerk/nextjs";
 import { BarChart, LockIcon, Repeat } from "lucide-react";
+import Link from "next/link";
 
 interface HeroSectionProps {
   user: UserDocument | null;
@@ -34,19 +35,18 @@ export function HeroSection({ user }: HeroSectionProps) {
 
           <section className="relative overflow-hidden py-20 px-6">
             <div className="absolute inset-0 transform translate-y-[-50%] opacity-10">
-              {/* <!-- subtle radial or geometric background --> */}
             </div>
             <div className="relative max-w-6xl mx-auto flex flex-col-reverse md:flex-row items-center gap-12">
               <div className="md:w-1/2 space-y-6">
                 <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">Smart. Secure. Simple URL Links.</h1>
                 <p className="text-lg text-gray-600 dark:text-gray-400">Our URL shortener gives you powerful analytics and password protection — tailored for pros.</p>
                 <div className="flex flex-wrap gap-4">
-                  <a href="/sign-in" className="px-6 py-3 bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition">Get Started</a>
-                  <a href="#features" className="px-6 py-3 border border-gray-300 rounded-full hover:bg-gray-100 transition">Learn More</a>
+                  <Link href="/sign-in" className="px-6 py-3 bg-blue-600 text-white rounded-full shadow hover:bg-blue-700 transition">Get Started</Link>
+                  <Link href="#features" className="px-6 py-3 border border-gray-300 rounded-full hover:bg-gray-100 transition">Learn More</Link>
                 </div>
               </div>
               <div className="md:w-1/2">
-                {/* <!-- Insert your dashboard/mockup image here --> */}
+                {/* <!-- Insert mockup image here --> */}
                 <img src="/dashboard-mockup.png" alt="Minxy Dashboard" className="rounded-lg shadow-lg" />
               </div>
             </div>
@@ -79,7 +79,7 @@ export function HeroSection({ user }: HeroSectionProps) {
             </div>
           </section>
 
-          <a href="https://github.com/vanessa082" className="items-center hover:text-gray-800">Source Code on GitHub  &copy; 2025 Minxy. All rights reserved.</a>
+          <Link href="https://github.com/vanessa082" className="items-center hover:text-gray-800">Source Code on GitHub  &copy; 2025 Minxy. All rights reserved.</Link>
         </div>
 
       </SignedOut>
