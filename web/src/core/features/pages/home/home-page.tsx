@@ -6,10 +6,12 @@ import {
 
 async function _HomePage(props: WithCurrentUserComponentProps) {
   return (
-    <div className="w-full">
+    <main className="relative overflow-hidden min-h-screen bg-background text-foreground">
       <HeroSection user={props?.user} />
-    </div>
+
+    </main>
   );
 }
 
 export const HomePage = CurrentUserProvider(_HomePage);
+

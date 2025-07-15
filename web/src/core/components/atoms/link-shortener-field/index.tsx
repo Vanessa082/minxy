@@ -56,7 +56,7 @@ export default function LinkShortenerField({ user }: WithCurrentUserComponentPro
   return (
     <form
       onSubmit={form.handleSubmit(onSubmit)}
-      className="w-full max-w-2xl mx-auto px-4 py-5 sm:px-6 bg-white/80bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 rounded-2xl shadow-xl transition-all"
+      className="w-full max-w-2xl mx-auto px-4 py-5 sm:px-6 bg-white/80bg-gray-800/70 backdrop-blur-md rounded-2xl shadow-xl transition-all"
     >
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <div className="relative flex-1 w-full">
@@ -67,7 +67,7 @@ export default function LinkShortenerField({ user }: WithCurrentUserComponentPro
             {...form.register("original")}
             type="url"
             placeholder="Paste your long URL here..."
-            className="w-full pl-10 pr-4 py-3 text-sm bg-white text-gray-500  border border-gray-300 dark:border-gray-600 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-3 text-sm bg-white text-gray-500  rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             aria-label="URL to shorten"
           />
         </div>

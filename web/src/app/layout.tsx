@@ -80,9 +80,10 @@ export default function RootLayout({
 }>) {
   return (
     <ClerkProvider publishableKey={environment.clerk.publishableKey}>
-      <html lang="en">
+      <html lang="en" suppressHydrationWarning>
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          suppressHydrationWarning
         >
           <ThemeProvider
             attribute="class"
