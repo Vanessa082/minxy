@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -6,7 +5,10 @@ import { useTheme } from "next-themes";
 import { DropdownMenu, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { MoonIcon, SunIcon } from "lucide-react";
-import { DropdownMenuContent, DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
+import {
+  DropdownMenuContent,
+  DropdownMenuItem,
+} from "@radix-ui/react-dropdown-menu";
 // ... other imports ...
 
 export default function ModeToggle() {
@@ -45,9 +47,15 @@ export default function ModeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="bg-app-white-500 text-app-text-dark-400 py-2 px-4 rounded-lg flex flex-col items-start gap-1 justify-between ">
-        <DropdownMenuItem onClick={() => setTheme("light")}>Light</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>Dark</DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>System</DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );

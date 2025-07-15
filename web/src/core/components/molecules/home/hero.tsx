@@ -16,7 +16,8 @@ export function Hero() {
             Smart. Secure. <br /> Simple URL Shortener.
           </h1>
           <p className="text-lg text-muted-foreground">
-            Create clean links, protect them with passwords, and track analytics — all in one simple tool.
+            Create clean links, protect them with passwords, and track analytics
+            — all in one simple tool.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
@@ -51,5 +52,5 @@ export function Hero() {
         </motion.div>
       </div>
     </section>
-  )
+  );
 }

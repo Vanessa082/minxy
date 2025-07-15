@@ -26,7 +26,9 @@ export interface ShortenResponse {
   updatedAt: string;
 }
 
-export default function LinkShortenerField({ user }: WithCurrentUserComponentProps) {
+export default function LinkShortenerField({
+  user,
+}: WithCurrentUserComponentProps) {
   const [loading, setLoading] = useState(false);
   const form = useForm<URLShortenerInputField>({
     resolver: URLShortenerInputFieldResolver,
@@ -77,7 +79,9 @@ export default function LinkShortenerField({ user }: WithCurrentUserComponentPro
           disabled={loading}
           className="flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold text-sm rounded-xl shadow-md transition-all duration-200"
         >
-          {loading ? "Shortening..." : (
+          {loading ? (
+            "Shortening..."
+          ) : (
             <>
               <ScissorsIcon className="w-4 h-4" />
               <span>Shorten</span>

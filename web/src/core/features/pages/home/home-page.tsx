@@ -8,10 +8,8 @@ async function _HomePage(props: WithCurrentUserComponentProps) {
   return (
     <main className="relative overflow-hidden min-h-screen bg-background text-foreground">
       <HeroSection user={props?.user} />
-
     </main>
   );
 }
 
 export const HomePage = CurrentUserProvider(_HomePage);
-
