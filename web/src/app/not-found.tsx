@@ -1,15 +1,14 @@
-"use client";
-
 import Link from "next/link";
-import { motion } from "motion/react"
+
+export const metadata = {
+  title: 'Not Found',
+  description: 'The page you are looking for does not exist.',
+}
 
 export default function NotFoundPage() {
   return (
     <main className="flex items-center justify-center min-h-screen bg-background text-foreground px-6 relative overflow-hidden">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.4 }}
+      <div
         className="text-center space-y-6 max-w-xl"
       >
         <h1 className="text-6xl font-extrabold tracking-tight">404</h1>
@@ -22,7 +21,7 @@ export default function NotFoundPage() {
         >
           ⬅ Back to Home
         </Link>
-      </motion.div>
+      </div>
       <BackgroundBlobs />
     </main>
   );
