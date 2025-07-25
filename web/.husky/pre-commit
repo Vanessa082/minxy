@@ -1,1 +1,4 @@
-pnpm exec lint-staged
+# .husky/pre-commit
+
+npx lint-staged
+pnpm build

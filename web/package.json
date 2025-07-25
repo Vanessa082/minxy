@@ -3,17 +3,20 @@
   "version": "0.1.0",
   "private": true,
   "lint-staged": {
-    "src/**/*.{ts,tsx,css}": [
-      "pnpm format"
-    ]
+    "*.{js,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*": "git update-index --again"
   },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
     "format": "prettier --write ./src",
-    "format:check": "prettier --check ./src"
+    "format:check": "prettier --check ./src",
+    "lint": "next lint",
+    "prepare": "husky"
   },
   "dependencies": {
     "@clerk/nextjs": "^6.9.15",
