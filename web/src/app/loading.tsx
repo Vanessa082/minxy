@@ -6,7 +6,7 @@ export default function Loading() {
         <div className="absolute inset-0 border-4 border-app-blue-500 border-t-transparent rounded-full animate-spin"></div>
       </div>
       <p className="text-muted-foreground animate-pulse font-medium">
-        Gathering your links...
+        Gathering your data...
       </p>
     </div>
   );

@@ -34,12 +34,12 @@ import {
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { QrCodeModal } from "../modals/qr-code-modal";
+import Loading from "@/app/loading";
 
 export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
+  const [loading, setLoading] = useState(true);
 
   const [modalTarget, setModalTarget] = useState<{
     id: string;
@@ -65,6 +65,8 @@ export function ResponsiveHistoryTable() {
     };
     fetchUrls();
   }, []);
+
+  // if (loading) return <Loading />
 
   const toggleLock = async (item: ShortenResponse) => {
     if (item.isLocked) {
@@ -206,7 +208,14 @@ export function ResponsiveHistoryTable() {
                 <td className="px-6 py-4 truncate max-w-[250px]">
                   {item.original}
                 </td>
-                <td className="px-6 py-4">{item.clicks}</td>
+                <td className="px-6 py-4">
+                  <Link
+                    href={`/app/analytics/${item.id}`}
+                    className="hover:text-blue-600 hover:underline font-medium cursor-pointer"
+                  >
+                    {item.clicks}
+                  </Link>
+                </td>
                 <td className="px-6 py-4">
                   <span className="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-700">
                     {item.status}
@@ -303,7 +312,11 @@ export function ResponsiveHistoryTable() {
                 <strong>Original:</strong> {item.original}
               </div>
               <div>
-                <strong>Clicks:</strong> {item.clicks}
+                <Link
+                  href={`/app/analytics/${item.id}`}
+                >
+                  {item.clicks}
+                </Link>
               </div>
               <div>
                 <strong>Status:</strong> {item.status}
