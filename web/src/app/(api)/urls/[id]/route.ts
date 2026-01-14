@@ -49,3 +49,20 @@ export async function PATCH(
     data: updatedUrl,
   });
 }
+
+
+export async function DELETE(
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  const { id } = await context.params;
+  await connectDB();
+
+  const deleted = await urlRepo.deleteById(id);
+
+  if (!deleted) {
+    return newBadRequestApiResponse({ message: "Failed to delete URL", data: null });
+  }
+
+  return newSuccessApiResponse({ message: "URL deleted successfully", data: id });
+}

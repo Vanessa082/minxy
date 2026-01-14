@@ -22,15 +22,32 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { EditUrlModal } from "../modals/edit-url-modal";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
+import { QrCodeModal } from "../modals/qr-code-modal";
 
 export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+
   const [modalTarget, setModalTarget] = useState<{
     id: string;
     hasPassword: boolean;
   } | null>(null);
+  const [editTarget, setEditTarget] = useState<ShortenResponse | null>(null);
+  const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
+  const [qrTarget, setQrTarget] = useState<{ url: string; shortId: string } | null>(null);
 
   useEffect(() => {
     const fetchUrls = async () => {
@@ -61,6 +78,25 @@ export function ResponsiveHistoryTable() {
     }
   };
 
+  const handleDelete = async () => {
+    if (!deleteTargetId) return;
+    try {
+      const res = await Fetcher(`/urls/${deleteTargetId}`, { method: "DELETE" });
+      if (res.data) {
+        setData((prev) => prev.filter((item) => item.id !== deleteTargetId));
+        toast.success("Link deleted successfully");
+      }
+    } catch {
+      toast.error("Failed to delete link");
+    } finally {
+      setDeleteTargetId(null);
+    }
+  };
+
+  const handleUpdateLocal = (updatedItem: ShortenResponse) => {
+    setData((prev) => prev.map((item) => (item.id === updatedItem.id ? updatedItem : item)));
+  };
+
   const handleCopy = (shortId: string) => {
     const fullUrl = getFullUrlFromShortId(shortId);
     navigator.clipboard
@@ -69,7 +105,6 @@ export function ResponsiveHistoryTable() {
       .catch(() => toast.error("Failed to copy URL."));
   };
 
-  if (loading) return <p className="text-sm p-4">Loading...</p>;
   if (error) return <p className="text-sm p-4 text-red-500">{error}</p>;
 
   return (
@@ -83,6 +118,42 @@ export function ResponsiveHistoryTable() {
           onClose={() => setModalTarget(null)}
         />
       )}
+
+      {editTarget && (
+        <EditUrlModal
+          item={editTarget}
+          onClose={() => setEditTarget(null)}
+          onSuccess={(updated) => {
+            handleUpdateLocal(updated);
+            setEditTarget(null);
+          }}
+        />
+      )}
+
+      {qrTarget && (
+        <QrCodeModal
+          url={qrTarget.url}
+          shortId={qrTarget.shortId}
+          onClose={() => setQrTarget(null)}
+        />
+      )}
+
+      <AlertDialog open={!!deleteTargetId} onOpenChange={() => setDeleteTargetId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete your shortened link.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700">
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       <div className="hidden md:block overflow-x-auto border rounded-lg shadow-sm">
         <table className="min-w-full text-sm">
@@ -142,22 +213,44 @@ export function ResponsiveHistoryTable() {
                   </span>
                 </td>
                 <td className="px-6 py-4 text-xs text-gray-500">
-                  {item.createdAt}
+                  {new Date(item.createdAt).toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
                 </td>
                 <td className="px-10 py-4">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger className="hover:border-none">
-                      <MoreHorizontal />
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild>
+                      <button className="p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full outline-none cursor-pointer transition-colors">
+                        <MoreHorizontal className="w-5 h-5" />
+                      </button>
                     </DropdownMenuTrigger>
-                    <DropdownMenuContent className="text-app-text-dark-400 rounded-sm">
-                      <DropdownMenuItem className="cursor-pointer hover:bg-app-white-300">
-                        Edit
+                    <DropdownMenuContent align="end" className="w-40">
+                      <DropdownMenuItem
+                        onSelect={() => setEditTarget(item)}
+                        className="cursor-pointer"
+                      >
+                        <PenIcon className="mr-2 w-4 h-4" /> Edit
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer hover:bg-app-white-300">
-                        Delete
+
+                      <DropdownMenuItem
+                        onSelect={() => setDeleteTargetId(item.id)}
+                        className="cursor-pointer text-red-600 focus:text-red-600"
+                      >
+                        <TrashIcon className="mr-2 w-4 h-4" /> Delete
                       </DropdownMenuItem>
-                      <DropdownMenuItem className="cursor-pointer hover:bg-app-white-300">
-                        <QrCodeIcon />
+
+                      <DropdownMenuItem
+                        onSelect={() => setQrTarget({
+                          url: getFullUrlFromShortId(item.shortId),
+                          shortId: item.shortId
+                        })}
+                        className="cursor-pointer"
+                      >
+                        <QrCodeIcon className="mr-2 w-4 h-4" /> QR Code
                       </DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
@@ -220,8 +313,13 @@ export function ResponsiveHistoryTable() {
               </div>
             </div>
             <div className="flex gap-3 mt-3">
-              <PenIcon className="w-4 h-4 text-blue-500" />
-              <TrashIcon className="w-4 h-4 text-red-500" />
+              <PenIcon onClick={() => setEditTarget(item)} className="w-4 h-4 text-blue-500" />
+              <TrashIcon onClick={() => setDeleteTargetId(item.id)} className="w-4 h-4 text-red-500" />
+              <QrCodeIcon onClick={() => setQrTarget({
+                url: getFullUrlFromShortId(item.shortId),
+                shortId: item.shortId
+              })}
+                className="w-4 h-4" />
             </div>
           </div>
         ))}

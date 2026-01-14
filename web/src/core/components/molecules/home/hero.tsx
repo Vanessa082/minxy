@@ -17,7 +17,7 @@ export function Hero() {
           </h1>
           <p className="text-lg text-muted-foreground">
             Create clean links, protect them with passwords, and track analytics
-            — all in one simple tool.
+            all in one simple tool.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link
