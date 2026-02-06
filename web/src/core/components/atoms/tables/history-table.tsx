@@ -39,7 +39,6 @@ import Loading from "@/app/loading";
 export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
   const [error, setError] = useState("");
-  const [loading, setLoading] = useState(true);
 
   const [modalTarget, setModalTarget] = useState<{
     id: string;
@@ -55,18 +54,15 @@ export function ResponsiveHistoryTable() {
         const result = await Fetcher<ShortenResponse[]>("/urls", {
           method: "GET",
         });
+        if (!result) return <Loading />
         setData(result.data || []);
       } catch (error) {
         console.error("Error getting all urls", error);
         setError("Failed to fetch URLs");
-      } finally {
-        setLoading(false);
       }
     };
     fetchUrls();
   }, []);
-
-  // if (loading) return <Loading />
 
   const toggleLock = async (item: ShortenResponse) => {
     if (item.isLocked) {

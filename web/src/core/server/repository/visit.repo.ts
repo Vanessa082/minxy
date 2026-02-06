@@ -1,9 +1,10 @@
+import { Visit } from "@/core/type";
 import { VisitModel } from "../models/visit";
-import { PipelineStage } from "mongoose";
+import { FilterQuery, PipelineStage } from "mongoose";
 
 export class VisitRepo {
   async getFullDecisionSuite(id: string, start?: Date, end?: Date) {
-    const match: any = { $or: [{ urlId: id }, { shortId: id }] };
+    const match: FilterQuery<Visit> = { $or: [{ urlId: id }, { shortId: id }] };
 
     if (start || end) {
       match.timestamp = {

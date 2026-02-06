@@ -1,20 +1,22 @@
 "use client";
 import { useState, useEffect, use } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { Download, Globe, MousePointer2, Smartphone, ShieldAlert, Activity, Monitor } from "lucide-react";
+import { Download, Globe, MousePointer2, ShieldAlert, Activity, Monitor } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Fetcher } from "@/lib/fetch";
 import Loading from "@/app/loading";
+import { AnalyticsData, DataTableProps, MetricCardProps } from "@/core/type";
 
 export default function FullAnalyticsPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
-  const [data, setData] = useState<any>(null);
+
+  const [data, setData] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadAnalytics = async () => {
       try {
-        const res = await Fetcher(`/${id}/analytics`);
+        const res = await Fetcher<AnalyticsData>(`/${id}/analytics`)
         if (res.data) setData(res.data);
       } catch (err) {
         console.error("Failed to fetch decision data", err);
@@ -29,9 +31,9 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
     if (!data) return;
     const csvRows = [
       ["Metric", "Count"],
-      ["Total Clicks", data.summary?.totalClicks ?? 0],
-      ["Unique Visitors", data.summary?.uniqueClicks ?? 0],
-      ["Conversion Rate", ((data.summary?.conversionRate ?? 0) * 100).toFixed(2) + "%"]
+      ["Total Clicks", data.summary.totalClicks],
+      ["Unique Visitors", data.summary.uniqueClicks],
+      ["Conversion Rate", (data.summary.conversionRate * 100).toFixed(2) + "%"]
     ];
     const csvContent = "data:text/csv;charset=utf-8," + csvRows.map(e => e.join(",")).join("\n");
     const link = document.createElement("a");
@@ -41,7 +43,8 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
   };
 
   if (loading) return <Loading />
-  if (!data || data.summary?.totalClicks === 0) {
+
+  if (!data || data.summary.totalClicks === 0) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
         <Activity className="h-12 w-12 text-muted-foreground mb-4" />
@@ -51,8 +54,8 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
     );
   }
 
-  const techData = data.tech?.[0] || {};
-  const sourceData = data.sources?.[0] || {};
+  const techData = data.tech?.[0] || { browsers: [], os: [], devices: [] };
+  const sourceData = data.sources?.[0] || { utm_sources: [] };
 
   return (
     <div className="p-6 max-w-[1600px] mx-auto space-y-6 animate-in fade-in duration-700">
@@ -67,10 +70,10 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <MetricCard title="Total Volume" value={data.summary?.totalClicks ?? 0} subtitle="Gross usage" />
-        <MetricCard title="Identity Layer" value={data.summary?.uniqueClicks ?? 0} subtitle="Unique reach" />
-        <MetricCard title="Performance" value={`${((data.summary?.conversionRate ?? 0) * 100).toFixed(1)}%`} subtitle="Conversion efficiency" />
-        <MetricCard title="Velocity" value={(data.summary?.totalClicks / (data.timeSeries?.length || 1)).toFixed(1)} subtitle="Avg clicks / day" />
+        <MetricCard title="Total Volume" value={data.summary.totalClicks} subtitle="Gross usage" />
+        <MetricCard title="Identity Layer" value={data.summary.uniqueClicks} subtitle="Unique reach" />
+        <MetricCard title="Performance" value={`${(data.summary.conversionRate * 100).toFixed(1)}%`} subtitle="Conversion efficiency" />
+        <MetricCard title="Velocity" value={(data.summary.totalClicks / (data.timeSeries?.length || 1)).toFixed(1)} subtitle="Avg clicks / day" />
       </div>
 
       <Card>
@@ -90,18 +93,16 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <DataTable title="Top Countries" icon={<Globe size={16} className="text-green-500" />} rows={data.geo || []} />
-
-        <DataTable title="Primary Browsers" icon={<Monitor size={16} className="text-purple-500" />} rows={techData.browsers || []} />
-
-        <DataTable title="UTM Campaigns" icon={<MousePointer2 size={16} className="text-orange-500" />} rows={sourceData.utm_sources || []} />
+        <DataTable title="Primary Browsers" icon={<Monitor size={16} className="text-purple-500" />} rows={techData.browsers} />
+        <DataTable title="UTM Campaigns" icon={<MousePointer2 size={16} className="text-orange-500" />} rows={sourceData.utm_sources} />
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <DataTable title="Operating Systems" rows={techData.os || []} />
-        <DataTable title="Device Classification" rows={techData.devices || []} />
+        <DataTable title="Operating Systems" rows={techData.os} />
+        <DataTable title="Device Classification" rows={techData.devices} />
       </div>
 
-      {data.summary?.totalClicks > 500 && (
+      {data.summary.totalClicks > 500 && (
         <div className="p-4 bg-amber-50 border border-amber-200 rounded-xl flex items-center gap-4 text-amber-900 shadow-sm">
           <div className="p-2 bg-amber-200 rounded-full"><ShieldAlert size={20} /></div>
           <div>
@@ -114,7 +115,8 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
   );
 }
 
-function MetricCard({ title, value, subtitle }: any) {
+// Typed Sub-components
+function MetricCard({ title, value, subtitle }: MetricCardProps) {
   return (
     <Card className="hover:shadow-md transition-shadow">
       <CardContent className="pt-6">
@@ -128,7 +130,7 @@ function MetricCard({ title, value, subtitle }: any) {
   );
 }
 
-function DataTable({ title, icon, rows }: any) {
+function DataTable({ title, icon, rows }: DataTableProps) {
   return (
     <Card className="h-full">
       <CardHeader className="flex flex-row items-center gap-2 border-b bg-muted/20 pb-4">
@@ -136,7 +138,7 @@ function DataTable({ title, icon, rows }: any) {
       </CardHeader>
       <CardContent className="pt-4">
         <div className="space-y-3">
-          {rows.length > 0 ? rows.map((r: any) => (
+          {rows.length > 0 ? rows.map((r) => (
             <div key={r._id} className="flex justify-between items-center group">
               <span className="text-sm text-muted-foreground group-hover:text-primary transition-colors">{r._id || "Direct Entry"}</span>
               <span className="text-sm font-bold bg-secondary px-2 py-0.5 rounded">{r.count}</span>

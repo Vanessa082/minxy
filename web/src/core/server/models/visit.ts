@@ -1,3 +1,4 @@
+import { Visit } from "@/core/type";
 import mongoose, { Schema, model } from "mongoose";
 
 const visitSchema = new Schema({
@@ -33,4 +34,4 @@ const visitSchema = new Schema({
   status: { type: Number, default: 200 }
 }, { timestamps: true });
 
-export const VisitModel = mongoose.models?.Visit || model("Visit", visitSchema);
+export const VisitModel = mongoose.models?.Visit || model<Visit>("Visit", visitSchema);

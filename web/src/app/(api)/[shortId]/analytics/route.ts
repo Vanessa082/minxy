@@ -31,6 +31,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ shor
       }
     });
   } catch (error) {
+    console.log(error)
     return newBadRequestApiResponse({
       message: "Internal Error",
       data: null
