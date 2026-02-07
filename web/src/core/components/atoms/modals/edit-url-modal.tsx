@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Fetcher } from "@/lib/fetch";
 import { toast } from "sonner";
-import { ShortenResponse } from "../link-shortener-field";
+import { ShortenResponse } from "@/core/type";
 
 interface EditUrlModalProps {
   item: ShortenResponse;

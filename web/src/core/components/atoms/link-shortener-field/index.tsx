@@ -13,18 +13,8 @@ import { ScissorsIcon, LinkIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useState } from "react";
+import { ShortenResponse } from "@/core/type";
 
-export interface ShortenResponse {
-  id: string;
-  original: string;
-  shortId: string;
-  userId: string;
-  clicks: number;
-  status: string;
-  isLocked: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
 
 export default function LinkShortenerField({
   user,

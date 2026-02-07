@@ -1,3 +1,15 @@
+export interface ShortenResponse {
+  id: string;
+  original: string;
+  shortId: string;
+  userId: string;
+  clicks: number;
+  status: string;
+  isLocked: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface AnalyticsDimension {
   _id: string;
   count: number;
