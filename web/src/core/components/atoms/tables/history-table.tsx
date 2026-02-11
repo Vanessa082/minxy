@@ -126,6 +126,10 @@ export function ResponsiveHistoryTable() {
       .catch(() => toast.error("Failed to copy URL."));
   };
 
+  const handleOptimisticUpdate = (id: string, updates: Partial<ShortenResponse>) => {
+    setData((prev) => prev.map((item) => (item.id === id ? { ...item, ...updates } : item)));
+  };
+
   if (loading) return <div className="py-20"><Loading /></div>;
   if (error) return <p className="text-sm p-4 text-red-500 text-center font-medium">{error}</p>;
 
@@ -145,8 +149,12 @@ export function ResponsiveHistoryTable() {
       {modalTarget && (
         <AddPasswordToUrlModal
           id={modalTarget.id}
-          initialPassword={modalTarget.hasPassword}
           onClose={() => setModalTarget(null)}
+          onSuccess={(isLocked) => {
+            // Optimistically show the lock icon immediately
+            handleOptimisticUpdate(modalTarget.id, { isLocked });
+            setModalTarget(null);
+          }}
         />
       )}
 
@@ -154,8 +162,9 @@ export function ResponsiveHistoryTable() {
         <EditUrlModal
           item={editTarget}
           onClose={() => setEditTarget(null)}
-          onSuccess={(updated) => {
-            handleUpdateLocal(updated);
+          onSuccess={(updatedData) => {
+            // Optimistically update the URL and original link
+            handleUpdateLocal(updatedData);
             setEditTarget(null);
           }}
         />
@@ -332,39 +341,35 @@ function LinkActions({ item, onEdit, onDelete, onQr }: any) {
           <MoreHorizontal className="w-5 h-5" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-48 rounded-xl p-2 bg-white shadow-lg border-slate-200">
+      <DropdownMenuContent align="end" className="w-48 bg-white z-[100]">
         <DropdownMenuItem
-          onSelect={() => window.open(getFullUrlFromShortId(item.shortId), "_blank")}
-          className="cursor-pointer rounded-lg gap-2 py-2.5"
+          onSelect={() => {
+            setTimeout(() => onEdit(item), 100);
+          }}
+          className="cursor-pointer"
         >
-          <ExternalLink className="w-4 h-4" /> Visit Link
+          <PenIcon className="w-4 h-4 mr-2" /> Edit Details
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onSelect={() => onEdit(item)}
-          className="cursor-pointer rounded-lg gap-2 py-2.5"
+          onSelect={() => {
+            setTimeout(() => onQr({ url: getFullUrlFromShortId(item.shortId), shortId: item.shortId }), 100);
+          }}
+          className="cursor-pointer"
         >
-          <PenIcon className="w-4 h-4" /> Edit Details
-        </DropdownMenuItem>
-
-        <DropdownMenuItem
-          onSelect={() => onQr({ url: getFullUrlFromShortId(item.shortId), shortId: item.shortId })}
-          className="cursor-pointer rounded-lg gap-2 py-2.5"
-        >
-          <QrCodeIcon className="w-4 h-4" /> QR Code
+          <QrCodeIcon className="w-4 h-4 mr-2" /> QR Code
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          // IMPORTANT: Prevent default to stop focus fighting
           onSelect={(e) => {
             e.preventDefault();
-            onDelete(item.id);
+            setTimeout(() => onDelete(item.id), 100);
           }}
-          className="cursor-pointer rounded-lg gap-2 py-2.5 text-red-600 focus:text-red-600 focus:bg-red-50"
+          className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
         >
-          <TrashIcon className="w-4 h-4" /> Delete Link
+          <TrashIcon className="w-4 h-4 mr-2" /> Delete Link
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

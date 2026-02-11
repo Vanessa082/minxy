@@ -21,48 +21,45 @@ export function EditUrlModal({ item, onClose, onSuccess }: EditUrlModalProps) {
     resolver: completeUrlRequestSchemaResolver,
     defaultValues: {
       original: item.original,
-      shortId: item.shortId,
     }
   });
 
-  const onSubmit = async (data: CompleteUrlRequestSchema) => {
+  const onSubmit = async (data: Partial<CompleteUrlRequestSchema>) => {
+    onSuccess({ ...item, original: data.original! });
+    onClose();
+
     try {
       const res = await Fetcher<ShortenResponse>(`/urls/${item.id}`, {
         method: "PATCH",
         body: data,
       });
-
-      if (res.data) {
-        toast.success("Link updated successfully");
-        onSuccess(res.data);
-      }
+      toast.success("Link updated successfully");
     } catch {
-      toast.error("Failed to update link");
+      toast.error("Failed to update link. Please refresh.");
     }
   };
 
   return (
     <Dialog open onOpenChange={onClose}>
-      <DialogContent>
+      <DialogContent className="bg-white">
         <DialogHeader>
           <DialogTitle>Edit Link</DialogTitle>
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
-            <Label>Original URL</Label>
+            <Label>Short Link (Read Only)</Label>
+            <div className="px-3 py-2 bg-slate-50 border border-slate-200 rounded text-slate-500 font-mono text-sm">
+              /{item.shortId}
+            </div>
+          </div>
+          <div className="space-y-2">
+            <Label>Destination URL</Label>
             <Input {...register("original")} placeholder="https://..." />
             {errors.original && <p className="text-xs text-red-500">{errors.original.message}</p>}
           </div>
-          <div className="space-y-2">
-            <Label>Custom Path (Short ID)</Label>
-            <Input {...register("shortId")} placeholder="my-custom-link" />
-            {errors.shortId && <p className="text-xs text-red-500">{errors.shortId.message}</p>}
-          </div>
           <DialogFooter>
             <Button type="button" variant="outline" onClick={onClose}>Cancel</Button>
-            <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Saving..." : "Save Changes"}
-            </Button>
+            <Button type="submit">Save Changes</Button>
           </DialogFooter>
         </form>
       </DialogContent>

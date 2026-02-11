@@ -17,26 +17,25 @@ import { toast } from "sonner";
 
 interface AddPasswordToUrlModalProps {
   id: string;
-  initialPassword: boolean;
   onClose: () => void;
+  onSuccess: (isLocked: boolean) => void;
 }
 
-const AddPasswordToUrlModal = ({ id, onClose }: AddPasswordToUrlModalProps) => {
+const AddPasswordToUrlModal = ({ id, onClose, onSuccess }: AddPasswordToUrlModalProps) => {
   const form = useForm<CompleteUrlRequestSchema>({
     resolver: completeUrlRequestSchemaResolver,
     defaultValues: { password: "" },
   });
 
   const onSubmit = async (data: CompleteUrlRequestSchema) => {
+    onSuccess(true);
+    onClose();
+
     try {
-      await Fetcher(`/urls/${id}`, {
-        method: "PATCH",
-        body: data,
-      });
-      toast("Password successfully added");
-      onClose();
+      await Fetcher(`/urls/${id}`, { method: "PATCH", body: data });
+      toast.success("Password successfully added");
     } catch (error) {
-      console.log("Error locking password", error);
+      toast.error("Failed to set password");
     }
   };
   return (
