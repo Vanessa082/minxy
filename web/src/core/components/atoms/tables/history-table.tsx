@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Copy,
   LockKeyhole,
@@ -54,53 +54,66 @@ export function ResponsiveHistoryTable() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Targets for modals
   const [modalTarget, setModalTarget] = useState<{ id: string; hasPassword: boolean } | null>(null);
   const [editTarget, setEditTarget] = useState<ShortenResponse | null>(null);
   const [deleteTargetId, setDeleteTargetId] = useState<string | null>(null);
   const [qrTarget, setQrTarget] = useState<{ url: string; shortId: string } | null>(null);
 
-  useEffect(() => {
-    const fetchUrls = async () => {
-      try {
-        const result = await Fetcher<ShortenResponse[]>("/urls", { method: "GET" });
-        setData(result.data || []);
-      } catch (error) {
-        setError("Failed to fetch URLs");
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUrls();
+  const fetchUrls = useCallback(async () => {
+    try {
+      const result = await Fetcher<ShortenResponse[]>("/urls", { method: "GET" });
+      setData(result.data || []);
+    } catch (error) {
+      setError("Failed to fetch URLs");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
+  useEffect(() => {
+    fetchUrls();
+  }, [fetchUrls]);
+
   const toggleLock = async (item: ShortenResponse) => {
-    if (item.isLocked) {
-      await Fetcher(`/urls/${item.id}`, {
-        method: "PATCH",
-        body: { password: "" },
-      });
-      setData((prev) => prev.map((u) => (u.id === item.id ? { ...u, isLocked: false } : u)));
-      toast.success("URL unlocked");
-    } else {
-      setModalTarget({ id: item.id, hasPassword: false });
+    // Optimistic Update
+    const originalState = [...data];
+    setData(prev => prev.map(u => u.id === item.id ? { ...u, isLocked: !u.isLocked } : u));
+
+    try {
+      if (item.isLocked) {
+        await Fetcher(`/urls/${item.id}`, { method: "PATCH", body: { password: "" } });
+        toast.success("URL unlocked");
+      } else {
+        // If locking, we need the modal, so revert optimistic and open modal
+        setData(originalState);
+        setModalTarget({ id: item.id, hasPassword: false });
+      }
+    } catch {
+      setData(originalState);
+      toast.error("Failed to update lock status");
     }
   };
 
   const handleDelete = async () => {
     if (!deleteTargetId) return;
+
+    // 1. Store previous data for rollback
+    const previousData = [...data];
+
+    // 2. Optimistically remove from UI
+    setData((prev) => prev.filter((item) => item.id !== deleteTargetId));
+    setDeleteTargetId(null); // Close modal immediately
+
     try {
-      const res = await Fetcher(`/urls/${deleteTargetId}`, { method: "DELETE" });
-      if (res.data) {
-        setData((prev) => prev.filter((item) => item.id !== deleteTargetId));
-        toast.success("Link deleted successfully");
-      }
+      await Fetcher(`/urls/${deleteTargetId}`, { method: "DELETE" });
+      toast.success("Link deleted successfully");
     } catch {
+      // 3. Rollback on error
+      setData(previousData);
       toast.error("Failed to delete link");
-    } finally {
-      setDeleteTargetId(null);
     }
   };
-
   const handleUpdateLocal = (updatedItem: ShortenResponse) => {
     setData((prev) => prev.map((item) => (item.id === updatedItem.id ? updatedItem : item)));
   };
@@ -156,17 +169,26 @@ export function ResponsiveHistoryTable() {
         />
       )}
 
-      <AlertDialog open={!!deleteTargetId} onOpenChange={() => setDeleteTargetId(null)}>
+      <AlertDialog
+        open={!!deleteTargetId}
+        onOpenChange={(open) => !open && setDeleteTargetId(null)}
+      >
         <AlertDialogContent className="bg-white">
           <AlertDialogHeader>
-            <AlertDialogTitle className="text-slate-900">Are you absolutely sure?</AlertDialogTitle>
-            <AlertDialogDescription className="text-slate-500">
-              This action cannot be undone. This will permanently delete your shortened link and its analytics.
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel className="cursor-pointer">Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete} className="bg-red-600 hover:bg-red-700 text-white cursor-pointer">
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={(e) => {
+                e.preventDefault(); // Prevent default Radix behavior
+                handleDelete();
+              }}
+              className="bg-red-600 hover:bg-red-700 text-white"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>
@@ -302,40 +324,44 @@ export function ResponsiveHistoryTable() {
   );
 }
 
-// Sub-component for clean, reusable Actions Dropdown
 function LinkActions({ item, onEdit, onDelete, onQr }: any) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="p-2 hover:bg-slate-100 rounded-full outline-none cursor-pointer transition-colors text-slate-400 hover:text-slate-600">
+        <button className="p-2 hover:bg-slate-100 rounded-full outline-none cursor-pointer text-slate-400">
           <MoreHorizontal className="w-5 h-5" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48 rounded-xl p-2 bg-white shadow-lg border-slate-200">
-        <DropdownMenuLabel className="text-[10px] font-bold uppercase text-slate-400 px-2 py-1.5 tracking-widest">
-          Link Options
-        </DropdownMenuLabel>
         <DropdownMenuItem
           onSelect={() => window.open(getFullUrlFromShortId(item.shortId), "_blank")}
           className="cursor-pointer rounded-lg gap-2 py-2.5"
         >
-          <ExternalLink className="w-4 h-4 text-slate-400" /> Visit Link
+          <ExternalLink className="w-4 h-4" /> Visit Link
         </DropdownMenuItem>
+
         <DropdownMenuItem
           onSelect={() => onEdit(item)}
           className="cursor-pointer rounded-lg gap-2 py-2.5"
         >
-          <PenIcon className="w-4 h-4 text-slate-400" /> Edit Details
+          <PenIcon className="w-4 h-4" /> Edit Details
         </DropdownMenuItem>
+
         <DropdownMenuItem
           onSelect={() => onQr({ url: getFullUrlFromShortId(item.shortId), shortId: item.shortId })}
           className="cursor-pointer rounded-lg gap-2 py-2.5"
         >
-          <QrCodeIcon className="w-4 h-4 text-slate-400" /> QR Code
+          <QrCodeIcon className="w-4 h-4" /> QR Code
         </DropdownMenuItem>
-        <DropdownMenuSeparator className="bg-slate-100" />
+
+        <DropdownMenuSeparator />
+
         <DropdownMenuItem
-          onSelect={() => onDelete(item.id)}
+          // IMPORTANT: Prevent default to stop focus fighting
+          onSelect={(e) => {
+            e.preventDefault();
+            onDelete(item.id);
+          }}
           className="cursor-pointer rounded-lg gap-2 py-2.5 text-red-600 focus:text-red-600 focus:bg-red-50"
         >
           <TrashIcon className="w-4 h-4" /> Delete Link
