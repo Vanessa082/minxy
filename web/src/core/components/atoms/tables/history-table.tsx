@@ -48,6 +48,7 @@ import Loading from "@/app/loading";
 import { AddPasswordToUrlModal } from "../modals/add-password-to-url-modal";
 import { EditUrlModal } from "../modals/edit-url-modal";
 import { QrCodeModal } from "../modals/qr-code-modal";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export function ResponsiveHistoryTable() {
   const [data, setData] = useState<ShortenResponse[]>([]);
@@ -130,7 +131,7 @@ export function ResponsiveHistoryTable() {
     setData((prev) => prev.map((item) => (item.id === id ? { ...item, ...updates } : item)));
   };
 
-  if (loading) return <div className="py-20"><Loading /></div>;
+  if (loading) return <div className="py-20"><Skeleton /></div>;
   if (error) return <p className="text-sm p-4 text-red-500 text-center font-medium">{error}</p>;
 
   return (
