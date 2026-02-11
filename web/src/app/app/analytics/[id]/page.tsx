@@ -73,7 +73,7 @@ export default function FullAnalyticsPage({ params }: { params: Promise<{ id: st
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight">Intelligence Suite</h1>
+          <h1 className="text-3xl font-extrabold tracking-tight">Intelligence </h1>
           <p className="text-muted-foreground">
             Analyzing ID: <span className="font-mono text-app-blue-500 font-semibold">{id}</span>
           </p>
