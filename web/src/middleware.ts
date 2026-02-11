@@ -7,6 +7,7 @@ const publicRoutes = [
   "/app",
   "/app/sign-in(.*)",
   "/app/sign-up(.*)",
+  "/app/url-gate-way(.*)",
 
   /**
    * API ROUTES
