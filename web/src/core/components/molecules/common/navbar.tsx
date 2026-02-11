@@ -14,7 +14,6 @@ export async function NavBar() {
           Minxy
         </Link>
         <div className="flex items-center gap-2">
-          <ModeToggle />
           <UserButton />
         </div>
       </div>
