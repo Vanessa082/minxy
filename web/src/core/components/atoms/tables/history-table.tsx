@@ -77,7 +77,17 @@ export function ResponsiveHistoryTable() {
       fetchUrls();
     }, 10000);
 
-    return () => clearInterval(interval);
+    const handleNewLink = (event: any) => {
+      const newLink = event.detail;
+      setData((prev) => [newLink, ...prev]);
+    };
+
+    window.addEventListener("link-created", handleNewLink);
+
+    return () => {
+      clearInterval(interval);
+      window.removeEventListener("link-created", handleNewLink);
+    };
   }, [fetchUrls]);
 
   const toggleLock = async (item: ShortenResponse) => {

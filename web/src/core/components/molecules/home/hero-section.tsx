@@ -10,15 +10,12 @@ import { BackgroundBlobs } from "@/components/molecules/home/background-blobs";
 import { Features } from "@/components/molecules/home/feature";
 import Link from "next/link";
 import { FloatingCTA } from "@/components/molecules/home/floating-cta";
-import { useState } from "react";
 
 interface HeroSectionProps {
   user: UserDocument | null;
 }
 
 export function HeroSection({ user }: HeroSectionProps) {
-  const [refreshKey, setRefreshKey] = useState(0);
-  const triggerRefresh = () => setRefreshKey(prev => prev + 1);
   return (
     <MainTag className="flex flex-col justify-center items-center py-6 gap-8">
       <SignedIn>
@@ -31,8 +28,8 @@ export function HeroSection({ user }: HeroSectionProps) {
           boasts your online experience.
         </p>
 
-        <LinkShortenerField user={user} onSuccess={triggerRefresh} />
-        <ResponsiveHistoryTable key={refreshKey} />
+        <LinkShortenerField user={user} />
+        <ResponsiveHistoryTable />
       </SignedIn>
 
       <SignedOut>

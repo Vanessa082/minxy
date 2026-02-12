@@ -15,14 +15,10 @@ import { toast } from "sonner";
 import { useState } from "react";
 import { ShortenResponse } from "@/core/type";
 
-interface LinkShortenerFieldProps extends WithCurrentUserComponentProps {
-  onSuccess?: () => void;
-}
 
 export default function LinkShortenerField({
   user,
-  onSuccess
-}: LinkShortenerFieldProps) {
+}: WithCurrentUserComponentProps) {
   const [loading, setLoading] = useState(false);
   const form = useForm<URLShortenerInputField>({
     resolver: URLShortenerInputFieldResolver,
@@ -41,7 +37,10 @@ export default function LinkShortenerField({
       const shortUrl = getFullUrlFromShortId(result.data.shortId);
       toast.success(`Short URL created: ${shortUrl}`);
       form.reset();
-      if (onSuccess) onSuccess();
+
+      window.dispatchEvent(
+        new CustomEvent("link-created", { detail: result.data })
+      );
     } catch (error) {
       toast.error("Failed to shorten URL");
       console.error(error);
