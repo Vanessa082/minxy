@@ -42,7 +42,6 @@ import {
 import { Fetcher } from "@/lib/fetch";
 import { getFullUrlFromShortId, cn } from "@/lib/utils";
 import { ShortenResponse } from "@/core/type";
-import Loading from "@/app/loading";
 
 // Modals
 import { AddPasswordToUrlModal } from "../modals/add-password-to-url-modal";
@@ -77,17 +76,7 @@ export function ResponsiveHistoryTable() {
       fetchUrls();
     }, 10000);
 
-    const handleNewLink = (event: any) => {
-      const newLink = event.detail;
-      setData((prev) => [newLink, ...prev]);
-    };
-
-    window.addEventListener("link-created", handleNewLink);
-
-    return () => {
-      clearInterval(interval);
-      window.removeEventListener("link-created", handleNewLink);
-    };
+    return () => clearInterval(interval);
   }, [fetchUrls]);
 
   const toggleLock = async (item: ShortenResponse) => {
