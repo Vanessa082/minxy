@@ -40,7 +40,7 @@ import {
 
 // Utils & Logic
 import { Fetcher } from "@/lib/fetch";
-import { getFullUrlFromShortId, cn } from "@/lib/utils";
+import { getFullUrlFromShortId } from "@/lib/utils";
 import { ShortenResponse } from "@/core/type";
 
 // Modals
@@ -74,7 +74,7 @@ export function ResponsiveHistoryTable() {
   useEffect(() => {
     const interval = setInterval(() => {
       fetchUrls();
-    }, 10000);
+    }, 10000); // 10 seconds
 
     return () => clearInterval(interval);
   }, [fetchUrls]);
