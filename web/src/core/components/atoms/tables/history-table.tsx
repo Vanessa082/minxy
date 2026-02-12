@@ -119,6 +119,10 @@ export function ResponsiveHistoryTable() {
     setData((prev) => prev.map((item) => (item.id === updatedItem.id ? updatedItem : item)));
   };
 
+  const handleVisit = (shortId: string) => {
+    window.open(getFullUrlFromShortId(shortId), "_blank");
+  };
+
   const handleCopy = (shortId: string) => {
     const fullUrl = getFullUrlFromShortId(shortId);
     navigator.clipboard
@@ -350,6 +354,16 @@ function LinkActions({ item, onEdit, onDelete, onQr }: any) {
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48 bg-white z-[100]">
+        <DropdownMenuLabel className="text-[10px] font-bold uppercase text-slate-400 px-2 py-1.5">
+          Management
+        </DropdownMenuLabel>
+
+        <DropdownMenuItem
+          onSelect={() => window.open(getFullUrlFromShortId(item.shortId), "_blank")}
+          className="cursor-pointer"
+        >
+          <ExternalLink className="w-4 h-4 mr-2 text-blue-500" /> Visit Link
+        </DropdownMenuItem>
         <DropdownMenuItem
           onSelect={() => onEdit(item)}
           className="cursor-pointer"
