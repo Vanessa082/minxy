@@ -73,7 +73,11 @@ export function ResponsiveHistoryTable() {
   }, []);
 
   useEffect(() => {
-    fetchUrls();
+    const interval = setInterval(() => {
+      fetchUrls();
+    }, 10000);
+
+    return () => clearInterval(interval);
   }, [fetchUrls]);
 
   const toggleLock = async (item: ShortenResponse) => {
