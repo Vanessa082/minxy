@@ -181,9 +181,17 @@ export function ResponsiveHistoryTable() {
 
       <AlertDialog
         open={!!deleteTargetId}
-        onOpenChange={(open) => !open && setDeleteTargetId(null)}
+        onOpenChange={(open) => {
+          if (!open) setDeleteTargetId(null);
+        }}
       >
-        <AlertDialogContent className="bg-white">
+        <AlertDialogContent
+          className="bg-white"
+          onCloseAutoFocus={(e) => {
+            e.preventDefault();
+            document.body.style.pointerEvents = 'auto';
+          }}
+        >
           <AlertDialogHeader>
             <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
             <AlertDialogDescription>
@@ -193,10 +201,7 @@ export function ResponsiveHistoryTable() {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={(e) => {
-                e.preventDefault(); // Prevent default Radix behavior
-                handleDelete();
-              }}
+              onClick={handleDelete}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
               Delete
@@ -204,7 +209,6 @@ export function ResponsiveHistoryTable() {
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
-
       {/* DESKTOP TABLE */}
       <div className="hidden md:block overflow-hidden border border-slate-200 rounded-xl bg-white shadow-sm">
         <table className="min-w-full text-sm">
@@ -338,24 +342,23 @@ function LinkActions({ item, onEdit, onDelete, onQr }: any) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <button className="p-2 hover:bg-slate-100 rounded-full outline-none cursor-pointer text-slate-400">
+        <button
+          onPointerDown={(e) => e.stopPropagation()}
+          className="p-2 hover:bg-slate-100 rounded-full outline-none cursor-pointer text-slate-400"
+        >
           <MoreHorizontal className="w-5 h-5" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-48 bg-white z-[100]">
         <DropdownMenuItem
-          onSelect={() => {
-            setTimeout(() => onEdit(item), 100);
-          }}
+          onSelect={() => onEdit(item)}
           className="cursor-pointer"
         >
           <PenIcon className="w-4 h-4 mr-2" /> Edit Details
         </DropdownMenuItem>
 
         <DropdownMenuItem
-          onSelect={() => {
-            setTimeout(() => onQr({ url: getFullUrlFromShortId(item.shortId), shortId: item.shortId }), 100);
-          }}
+          onSelect={() => onQr({ url: getFullUrlFromShortId(item.shortId), shortId: item.shortId })}
           className="cursor-pointer"
         >
           <QrCodeIcon className="w-4 h-4 mr-2" /> QR Code
@@ -364,10 +367,7 @@ function LinkActions({ item, onEdit, onDelete, onQr }: any) {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem
-          onSelect={(e) => {
-            e.preventDefault();
-            setTimeout(() => onDelete(item.id), 100);
-          }}
+          onSelect={() => onDelete(item.id)}
           className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50"
         >
           <TrashIcon className="w-4 h-4 mr-2" /> Delete Link
